@@ -1,38 +1,61 @@
 <?php
-// Includi il file di connessione al database
-include 'db_connection.php';
+// Connessione al database
+$servername = "localhost";
+$username = "jacopo";
+$password = "Dianaidra24?";
+$dbname = "sport_portal_db";
 
-// Recupera i dati inviati dal form di registrazione
+// Crea una connessione
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Controlla la connessione
+if ($conn->connect_error) {
+    die("Connessione fallita: " . $conn->connect_error);
+}
+
+// Recupera i valori inviati dal form di registrazione
 $nome = $_POST['nome'];
 $cognome = $_POST['cognome'];
 $data_nascita = $_POST['data_nascita'];
 $email = $_POST['email'];
 $username = $_POST['username'];
 $password = $_POST['password'];
-$ruolo = $_POST['ruolo'];
+$confirm_password = $_POST['confirm_password'];
 
-// Cripta la password
-$passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
-// Query per verificare se l'email o il nome utente esiste già nel database
-$sql = "SELECT * FROM users WHERE email = ? OR username = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ss", $email, $username);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows > 0) {
-    // Utente o email già esistente
-    header("Location: register.php?error=1");
-} else {
-    // Inserisci l'utente nel database con la password criptata
-    $sql = "INSERT INTO users (nome, cognome, data_nascita, email, username, password, ruolo) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssss", $nome, $cognome, $data_nascita, $email, $username, $passwordHash, $ruolo);
-    $stmt->execute();
-    $stmt->close();
-    header("Location: index.php?success=1");
+// Verifica se le password coincidono
+if ($password !== $confirm_password) {
+    // Password non corrispondenti, reindirizza alla pagina di registrazione con un messaggio di errore
+    header("Location: register.php?error=password");
+    exit();
 }
 
+// Hash della password
+$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+// Prepara la query per inserire l'utente nel database
+$stmt = $conn->prepare("INSERT INTO users (nome, cognome, data_nascita, email, username, password) VALUES (?, ?, ?, ?, ?, ?)");
+
+// Verifica se la query è stata preparata con successo
+if ($stmt === false) {
+    die("Errore nella preparazione della query");
+}
+
+// Proteggi i dati da SQL injection
+$stmt->bind_param("ssssss", $nome, $cognome, $data_nascita, $email, $username, $hashed_password);
+
+// Esegui la query
+$result = $stmt->execute();
+
+// Controlla se l'inserimento è avvenuto con successo
+if ($result) {
+    // Registrazione avvenuta con successo, reindirizza alla pagina di login
+    header("Location: index.php");
+} else {
+    // Errore durante la registrazione, reindirizza alla pagina di registrazione con un messaggio di errore
+    header("Location: register.php?error=registration");
+}
+
+// Chiudi la connessione al database
+$stmt->close();
 $conn->close();
 ?>

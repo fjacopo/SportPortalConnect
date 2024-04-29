@@ -13,20 +13,13 @@ if ($conn->connect_error) {
     die("Connessione fallita: " . $conn->connect_error);
 }
 
-// Recupera i valori inviati dal form di login
-$email_username = $_POST['username'];
+// Recupera il nome utente o l'email e la password inviati dal form di login
+$identifier = $_POST['username'];
 $password = $_POST['password'];
 
-// Prepara la query per selezionare l'utente dal database
-$stmt = $conn->prepare("SELECT * FROM users WHERE (email = ? OR username = ?) AND password = ?");
-
-// Verifica se la query è stata preparata con successo
-if ($stmt === false) {
-    die("Errore nella preparazione della query");
-}
-
-// Proteggi i dati da SQL injection
-$stmt->bind_param("sss", $email_username, $email_username, $password);
+// Prepara la query per selezionare l'utente dal database utilizzando il nome utente o l'email
+$stmt = $conn->prepare("SELECT username, email, password FROM users WHERE username = ? OR email = ?");
+$stmt->bind_param("ss", $identifier, $identifier);
 
 // Esegui la query
 $stmt->execute();
@@ -34,13 +27,26 @@ $stmt->execute();
 // Ottieni il risultato della query
 $result = $stmt->get_result();
 
-// Controlla se esiste un utente con le credenziali fornite
-if ($result->num_rows > 0) {
-    // L'utente esiste, reindirizzalo alla pagina di benvenuto
-    header("Location: dashboard.php");
+// Controlla se l'utente esiste nel database
+if ($result->num_rows === 0) {
+    // L'utente non esiste nel database, mostra un messaggio di errore
+    echo "<script>alert('NOME UTENTE O EMAIL NON VALIDI. Premere OK'); window.location.href='index.php';</script>";
 } else {
-    // L'utente non esiste o le credenziali sono errate, reindirizzalo alla pagina di login con un messaggio di errore
-    header("Location: login.php?error=1");
+    // L'utente esiste nel database, ottieni il nome utente, l'email e la password criptata
+    $row = $result->fetch_assoc();
+    $username = $row['username'];
+    $email = $row['email'];
+    $hashed_password = $row['password'];
+
+    // Verifica se la password inserita corrisponde alla password nel database
+    if (password_verify($password, $hashed_password)) {
+        // Password corretta, reindirizza alla pagina di dashboard
+        header("Location: dashboard.php");
+        exit(); // Assicura che lo script termini qui e non prosegua oltre
+    } else {
+        // Password errata, mostra un messaggio di errore e torna alla pagina di login
+        echo "<script>alert('PASSWORD ERRATA. Premere OK'); window.location.href='index.php';</script>";
+    }
 }
 
 // Chiudi la connessione al database
