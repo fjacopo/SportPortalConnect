@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SportPortalConnect</title>
+    <title>Login</title>
     <link rel="icon" href="coach_icon.png" type="image/x-icon">
     <style>
        
@@ -38,6 +38,7 @@
 
         .container input[type="text"],
         .container input[type="password"] {
+            
             width: calc(100% - 20px);
             padding: 10px;
             margin-bottom: 20px;
@@ -94,8 +95,9 @@
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit">ACCEDI</button>
         </form>
+        <p>Sei un allenatore? <a href="register_coach.php">Registrati qui.</a></p>
         <p>Non hai un account? <a href="register.php">Registrati qui.</a></p>
-       
+        
     </div>
   
 </body>

@@ -30,7 +30,7 @@ $result = $stmt->get_result();
 // Controlla se l'utente esiste nel database
 if ($result->num_rows === 0) {
     // L'utente non esiste nel database, mostra un messaggio di errore
-    echo "<script>alert('NOME UTENTE O EMAIL NON VALIDI. Premere OK'); window.location.href='index.php';</script>";
+    echo "<script>alert('NOME UTENTE O EMAIL NON VALIDI .); window.location.href='index.php';</script>";
 } else {
     // L'utente esiste nel database, ottieni il nome utente, l'email e la password criptata
     $row = $result->fetch_assoc();
@@ -41,11 +41,11 @@ if ($result->num_rows === 0) {
     // Verifica se la password inserita corrisponde alla password nel database
     if (password_verify($password, $hashed_password)) {
         // Password corretta, reindirizza alla pagina di dashboard
-        header("Location: dashboard.php");
+        header("Location: home.php");
         exit(); // Assicura che lo script termini qui e non prosegua oltre
     } else {
         // Password errata, mostra un messaggio di errore e torna alla pagina di login
-        echo "<script>alert('PASSWORD ERRATA. Premere OK'); window.location.href='index.php';</script>";
+        echo "<script>alert('PASSWORD ERRATA .'); window.location.href='index.php';</script>";
     }
 }
 

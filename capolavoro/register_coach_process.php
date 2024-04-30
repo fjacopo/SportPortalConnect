@@ -13,7 +13,7 @@ if ($conn->connect_error) {
     die("Connessione fallita: " . $conn->connect_error);
 }
 
-// Recupera i valori inviati dal form di registrazione
+// Recupera i dati inviati dal form di registrazione
 $nome = $_POST['nome'];
 $cognome = $_POST['cognome'];
 $data_nascita = $_POST['data_nascita'];
@@ -22,10 +22,11 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 $confirm_password = $_POST['confirm_password'];
 
+
 // Verifica se le password coincidono
 if ($password !== $confirm_password) {
-    // Password non corrispondenti, reindirizza alla pagina di registrazione con un messaggio di errore
-    header("Location: register.php");
+    // Le password non coincidono, mostra un messaggio di errore
+    header("Location: register_coach.php?error=password");
     exit();
 }
 
@@ -41,12 +42,10 @@ $result_username = $stmt_username->get_result();
 // Controlla se esiste un record con lo stesso nome utente
 if ($result_username->num_rows > 0) {
     // Il nome utente esiste già nel database, mostra un messaggio di errore
-    
-    header("Location: register.php");
+    header( "<script>alert('Questo nome utente è già in uso.');</script>");
+    header("Location: register_coach.php");
     exit();
 }
-
-
 
 // Controlla se l'email esiste già nel database
 $stmt_email = $conn->prepare("SELECT * FROM users WHERE email = ?");
@@ -57,12 +56,13 @@ $result_email = $stmt_email->get_result();
 // Controlla se esiste un record con la stessa email
 if ($result_email->num_rows > 0) {
     // L'email esiste già nel database, mostra un messaggio di errore
-    
-    header("Location: register.php");
+    header ("<script>alert('Questa password é giá registrata.');</script>");
+    header("Location: register_coach.php");
     exit();
 }
 
-// Prepara la query per inserire l'utente nel database
+
+// Prepara la query per inserire i dati nel database
 $stmt = $conn->prepare("INSERT INTO users (nome, cognome, data_nascita, email, username, password) VALUES (?, ?, ?, ?, ?, ?)");
 
 // Verifica se la query è stata preparata con successo
@@ -76,15 +76,19 @@ $stmt->bind_param("ssssss", $nome, $cognome, $data_nascita, $email, $username, $
 // Esegui la query
 $result = $stmt->execute();
 
-// Controlla se l'inserimento è avvenuto con successo
-if ($result) {
+$query = "UPDATE users SET ruolo = 'Allenatore' WHERE username = ?";
+    $stmt_allenatore = $conn->prepare($query);
+    $stmt_allenatore->bind_param('s', $username);
+    $stmt_allenatore->execute();
+
+if  ($result) {
     // Inserimento dei dati nel database avvenuto con successo
     echo "<script>alert('Registrazione completata con successo.');</script>";
     echo "<script>window.location.href='index.php';</script>";
 } else {
     // Errore durante l'inserimento dei dati nel database
     echo "<script>alert('Errore durante la registrazione.');</script>";
-    echo "<script>window.location.href='register.php';</script>";
+    echo "<script>window.location.href='register_coach.php';</script>";
 }
 
 // Chiudi la connessione al database

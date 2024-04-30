@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrazione</title>
+    <title>Registrazione Allenatore</title>
     <link rel="icon" href="coach_icon.png" type="image/x-icon">
     
     <style>
+     
         .error {
             color: red;
             font-family: Arial, sans-serif;
@@ -107,9 +108,9 @@
 </head>
 <body>
     <div class="register-container">
-        <h2>REGISTRAZIONE</h2>
-        <form action="register_process.php" method="post">
-            
+        <h2>REGISTRAZIONE ALLENATORE</h2>
+        <form action="register_coach_process.php" method="post">
+          
             <input type="text" id="nome" name="nome" pattern="[A-Za-z]+" placeholder="Nome" required>
             
             <input type="text" id="cognome" name="cognome" pattern="[A-Za-z]+" placeholder="Cognome" required>
@@ -121,19 +122,20 @@
             <input type="text" id="username" name="username" placeholder="Nome Utente" required>
             
             <input type="password" id="password" name="password" placeholder="Password" required>
-           
+            
             <input type="password" id="confirm_password" name="confirm_password" placeholder="Conferma Password" required>
             <span id="passwordError" class="error"></span>
-            
+
             <button type="submit" id="registerButton">REGISTRATI</button>
         </form>
-        <p>Sei un allenatore? <a href="register_coach.php">Registrati qui.</a></p>
+        <p>Non sei un allenatore? <a href="register.php">Registrati qui.</a></p>
         <p>Hai già un account? <a href="index.php">Accedi qui.</a></p>
+       
     </div>
     <script>
-       
-        // Calcola la data massima (5 anni prima rispetto ad oggi)
-        var today = new Date();
+
+       // Calcola la data massima (5 anni prima rispetto ad oggi)
+       var today = new Date();
         var maxDate = new Date(today.getFullYear() - 5, today.getMonth(), today.getDate());
 
         // Formatta la data massima come stringa per l'attributo "max" dell'input date
@@ -150,6 +152,7 @@
 
         // Imposta la data minima per l'input date
         document.getElementById('data_nascita').setAttribute('min', minDateFormatted);
+
 
         const passwordField = document.getElementById("password");
         const confirmPasswordField = document.getElementById("confirm_password");
@@ -170,3 +173,4 @@
     </script>
 </body>
 </html>
+
