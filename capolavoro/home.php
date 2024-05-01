@@ -6,7 +6,6 @@
     <title>Sport Portal Connect</title>
     <link rel="icon" href="coach_icon.png" type="image/x-icon">
     <style>
-
         body {
             margin: 0;
             padding: 0;
@@ -49,7 +48,7 @@
             position: absolute;
             top: 40px;
             right: 20px;
-            background-color: rgba(56, 81, 112, 0.9);
+            background-color: rgba(56, 81, 112, 0.8);
             border-radius: 8px;
             padding: 10px;
             z-index: 1;
@@ -235,41 +234,40 @@
             text-align: left;
             margin-top: 40px;
             padding: 20px;
-            background-color: #385170;
+            background-color: #081f37;
             border-radius: 8px;
             color: #F1F1F2;
+            overflow-y: auto; /* Abilita lo scrolling verticale */
+            max-height: 165px; 
         }
 
         .join-requests h2 {
             margin-bottom: 20px;
         }
 
+        .join-request {
+            display: flex;
+            justify-content: space-between; /* Distribuisce gli elementi uniformemente lungo il container */
+            align-items: center; /* Allinea verticalmente al centro */
+            
+        }
+
         .join-request-details {
-            margin-bottom: 20px;
-        }
-
-        .join-request-details label {
-            font-weight: bold;
-        }
-
-        .join-request-details select {
-            margin-left: 10px;
-            padding: 5px;
-            border-radius: 5px;
+            flex: 1; /* Occupa lo spazio disponibile */
         }
 
         .join-request-actions {
-            margin-top: 20px;
+            margin-left: 20px; /* Aggiunge uno spazio tra i dettagli e i pulsanti */
         }
 
         .join-request-actions button {
-            margin-right: 10px;
-            padding: 8px 20px;
+            padding: 6px 30px;
             border: none;
             border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #17b794;
+            color: #F1F1F2;
             cursor: pointer;
+            font-family: "Arial Black", Arial, sans-serif;
         }
 
         .join-request-actions button:hover {
@@ -277,19 +275,18 @@
         }
 
         .join-request-actions button:last-child {
-            background-color: #f44336;
+            background-color: #f95959;
         }
 
         .join-request-actions button:last-child:hover {
             background-color: #d32f2f;
         }
-      
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="name_design.png" class="name-design" alt="Name Design">
-        <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()">
+       <img src="name_design.png" class="name-design" alt="Name Design">
+       <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()" id="menu-icon">
         <div class="menu" id="menu">
             <a href="#">Persone</a>
             <a href="#">Statistiche</a>
@@ -300,82 +297,70 @@
             <a href="#">Impostazioni</a>
             <a href="logout.php">Logout</a>
         </div>
-
+        
         <div class="join-requests">
             <h2>Richieste di unione</h2>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-
-            <script>
+            <?php
+                  $servername = "localhost";
+                  $username = "jacopo";
+                  $password = "Dianaidra24?";
+                  $dbname = "sport_portal_db";
+              
+                  // Crea una connessione
+                  $conn = new mysqli($servername, $username, $password, $dbname);
+              
+                  // Verifica la connessione
+                  if ($conn->connect_error) {
+                      die("Connessione fallita: " . $conn->connect_error);
+                  }
+              
+                  // Query per recuperare le richieste
+                  $sql = "SELECT id, nome, cognome, data_nascita, username, email, ruolo FROM richieste_giocatori";
+                  $result = $conn->query($sql);
+              
+                  // Chiudi la connessione
+                  $conn->close();
+              
+                  if ($result && $result->num_rows > 0) {
+                      while ($request = $result->fetch_assoc()) {
+                          echo "<div class='join-request-details'>";
+                           echo "<input type='text' value='" . $request['nome'] . "' disabled>";
+                           echo "<input type='text' value='" . $request['cognome'] . "' disabled>";
+                           echo "<input type='text' value='" . $request['data_nascita'] . "' disabled>";
+                           echo "<input type='text' value='" . $request['username'] . "' disabled>";
+                           echo "<input type='text' value='" . $request['email'] . "' disabled>";
+                          echo "<select name='role[]'>";
+                           echo "<option value='preparatore' " . ($request['ruolo'] == 'preparatore' ? 'selected' : '') . ">Preparatore</option>";
+                           echo "<option value='giocatore' " . ($request['ruolo'] == 'giocatore' ? 'selected' : '') . ">Giocatore</option>";
+                          echo "</select>";
+                          echo "</div>";
+                          echo "<div class='join-request-actions'>";
+                           echo "<button onclick='acceptRequest(" . $request['id'] . ")'>Accetta</button>";
+                           echo "<button onclick='rejectRequest(" . $request['id'] . ")'>Rifiuta</button>";
+                          echo "</div>";
+                      }
+                  } else {
+                      echo "<p>Nessuna richiesta di unione trovata.</p>";
+                  }
+            ?>
+        </div>
+    </div>
+    
+    <script>
         function toggleMenu() {
             var menu = document.getElementById("menu");
             menu.style.display = menu.style.display === "block" ? "none" : "block";
         }
 
-        function acceptRequest() {
+        function acceptRequest(id) {
             alert("Richiesta accettata!");
-            // Quando l'allenatore accetta la richiesta
-            // Esegui un'operazione simile a questa per aggiornare lo stato della richiesta
-            $update_stmt = $conn->prepare("UPDATE richieste_giocatori SET stato = TRUE WHERE id = ?");
-            $update_stmt->bind_param("i", $id_della_richiesta_da_accettare);
-            $update_stmt->execute();
+            // Qui puoi aggiungere il codice per accettare la richiesta con l'ID specificato
         }
 
-            // Dopo aver aggiornato lo stato della richiesta, reindirizza l'utente a home_giocatore.php solo se la richiesta è stata accettata
-            if ($update_stmt->affected_rows > 0) {
-            header("Location: home_giocatore.php");
-            exit();
-        }
-
-        function rejectRequest() {
+        function rejectRequest(id) {
             alert("Richiesta rifiutata!");
-            // Qui puoi aggiungere il codice per rifiutare la richiesta
+            // Qui puoi aggiungere il codice per rifiutare la richiesta con l'ID specificato
         }
     </script>
-
-    
- <?php
-    $servername = "localhost";
-    $username = "jacopo";
-    $password = "Dianaidra24?";
-    $dbname = "sport_portal_db";
-
-    // Crea una connessione
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Verifica la connessione
-    if ($conn->connect_error) {
-        die("Connessione fallita: " . $conn->connect_error);
-    }
-
-    // Query per recuperare le richieste
-    $sql = "SELECT id, nome, cognome, data_nascita, username, email, ruolo FROM richieste_giocatori";
-    $result = $conn->query($sql);
-
-    // Chiudi la connessione
-    $conn->close();
-
-    if ($result && $result->num_rows > 0) {
-        while ($request = $result->fetch_assoc()) {
-            echo "<div class='join-request-details'>";
-             echo "<input type='text' value='" . $request['nome'] . "' disabled>";
-             echo "<input type='text' value='" . $request['cognome'] . "' disabled>";
-             echo "<input type='text' value='" . $request['data_nascita'] . "' disabled>";
-             echo "<input type='text' value='" . $request['username'] . "' disabled>";
-             echo "<input type='text' value='" . $request['email'] . "' disabled>";
-            echo "<select name='role[]'>";
-             echo "<option value='preparatore' " . ($request['ruolo'] == 'preparatore' ? 'selected' : '') . ">Preparatore</option>";
-             echo "<option value='giocatore' " . ($request['ruolo'] == 'giocatore' ? 'selected' : '') . ">Giocatore</option>";
-            echo "</select>";
-            echo "</div>";
-            echo "<div class='join-request-actions'>";
-             echo "<button onclick='acceptRequest(" . $request['id'] . ")'>Accetta</button>";
-             echo "<button onclick='rejectRequest(" . $request['id'] . ")'>Rifiuta</button>";
-            echo "</div>";
-        }
-    } else {
-        echo "<p>Nessuna richiesta di unione trovata.</p>";
-    }
-?>
-                
 </body>
 </html>

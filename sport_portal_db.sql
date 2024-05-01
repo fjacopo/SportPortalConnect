@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 01, 2024 alle 18:53
+-- Creato il: Mag 01, 2024 alle 21:28
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -46,8 +46,7 @@ CREATE TABLE `richieste_giocatori` (
 INSERT INTO `richieste_giocatori` (`id`, `nome`, `cognome`, `data_nascita`, `email`, `username`, `ruolo`, `cod_squadra`, `stato`) VALUES
 (2, 'Domenico', 'Manca', '2005-06-25', 'domymanca.ciao@gmail.com', 'DomeManca', NULL, 'GYH53FMNXY', 0),
 (3, 'Luca', 'Puma', '1983-06-11', 'lucapuma@gmail.com', 'lucapuma', NULL, 'GYH53FMNXY', 0),
-(4, 'Luca', 'Puma', '1983-06-11', 'lucapuma@gmail.com', 'lucapuma', NULL, 'GYH53FMNXY', 0),
-(5, 'Luca', 'Puma', '1983-06-11', 'lucapuma@gmail.com', 'lucapuma', NULL, 'GYH53FMNXY', 0);
+(6, 'ciao', 'ciao', '2019-04-30', 'ciao@gmail.com', 'ciao', NULL, 'GYH53FMNXY', 0);
 
 -- --------------------------------------------------------
 
@@ -71,6 +70,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`nome`, `cognome`, `data_nascita`, `email`, `username`, `password`, `ruolo`, `cod_squadra`) VALUES
+('ciao', 'ciao', '2019-04-30', 'ciao@gmail.com', 'ciao', '$2y$10$XML.n05O4uFmo8FjXI76f.c.spDiIrd.VmN00IbtIXIZYpBwILHn.', NULL, NULL),
 ('Domenico', 'Manca', '2005-06-25', 'domymanca.ciao@gmail.com', 'DomeManca', '$2y$10$t19UJtkfVlN.RzsPeG8oq.hXMHs7DFd1RbV6Hohe/.j167FwML7zO', NULL, NULL),
 ('Jacopo', 'Ferrari', '2005-04-20', 'fjacopo10@gmail.com', 'ferrarijacopo', '$2y$10$Cdn0dNTaR.2L0mcbwMPK8e4DL75FcgP4hUzHX5wL/qfOCOrMfhXOC', 'Allenatore', 'GYH53FMNXY'),
 ('Luca', 'Puma', '1983-06-11', 'lucapuma@gmail.com', 'lucapuma', '$2y$10$.6oQDjV.GnHyJoLfiOuvx.H35qIOvTliAeHAJhO5CZbRHYvpPFiua', NULL, NULL),
@@ -103,7 +103,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT per la tabella `richieste_giocatori`
 --
 ALTER TABLE `richieste_giocatori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22123;
 
 --
 -- Limiti per le tabelle scaricate

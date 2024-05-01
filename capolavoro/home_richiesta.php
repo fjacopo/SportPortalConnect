@@ -81,7 +81,6 @@ $conn->close();
 ?>
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -324,6 +323,7 @@ $conn->close();
             background-color: #385170;
             border-radius: 8px;
             color: #F1F1F2;
+            
         }
 
         .join-requests h2 {
@@ -354,8 +354,9 @@ $conn->close();
             border: none;
             border-radius: 5px;
             background-color: #4CAF50;
-            color: white;
+            color: #f1f1f2;
             cursor: pointer;
+           
         }
 
         .join-request-actions button:hover {
@@ -384,12 +385,14 @@ $conn->close();
 
         .join-team label {
             font-weight: bold;
+            
         }
 
         .join-team input[type="text"] {
             margin-bottom: 10px;
             padding: 5px;
             border-radius: 5px;
+            
         }
 
         .join-team button {
@@ -425,7 +428,7 @@ $conn->close();
              <button type="submit">Invia Richiesta</button>
             </form>
         </div>
-      
+    </div>
 
     <script>
         function toggleMenu() {
@@ -442,8 +445,6 @@ $conn->close();
             alert("Richiesta rifiutata!");
             // Qui puoi aggiungere il codice per rifiutare la richiesta
         }
-
-      
     </script>
 </body>
 </html>
