@@ -1,3 +1,62 @@
+<?php
+// Connessione al database
+$servername = "localhost";
+$username = "jacopo";
+$password = "Dianaidra24?";
+$dbname = "sport_portal_db";
+
+// Crea una connessione
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Controlla la connessione
+if ($conn->connect_error) {
+    die("Connessione fallita: " . $conn->connect_error);
+}
+
+// Controllo se il giocatore fa parte di una squadra
+$is_part_of_team = false; // Imposta questa variabile a true se il giocatore fa parte di una squadra
+
+// Se il giocatore è già parte di una squadra, reindirizza alla home
+if ($is_part_of_team) {
+    header("Location: home.php");
+    exit();
+}
+
+// Se il giocatore non fa parte di una squadra e ha inviato una richiesta di unione
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Recupera il codice squadra inviato dal form
+    $cod_squadra = $_POST['cod_squadra'];
+
+    // Query per verificare se il codice squadra esiste nel database
+    $stmt = $conn->prepare("SELECT * FROM users WHERE cod_squadra = ?");
+    $stmt->bind_param("s", $cod_squadra);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Se il codice squadra esiste nel database
+    if ($result->num_rows > 0) {
+
+        $id = $_SESSION['id'];
+        
+        // Query per inserire la richiesta nella tabella richieste_giocatori
+        $insert_stmt = $conn->prepare("INSERT INTO richieste_giocatori (id) VALUES (?)");
+        $insert_stmt->bind_param("is", $id, $cod_squadra);
+        $insert_stmt->execute();
+        
+        // Reindirizza alla home del giocatore dopo l'invio della richiesta
+        header("Location: home_giocatore.php");
+        exit();
+    } else {
+        // Se il codice squadra non esiste, mostra un messaggio di errore
+        echo "<script>alert('Il codice squadra non esiste.');</script>";
+    }
+}
+
+// Chiudi la connessione al database
+$conn->close();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,7 +108,7 @@
             position: absolute;
             top: 40px;
             right: 20px;
-            background-color: rgba(56, 81, 112, 0.9);
+            background-color: rgba(56, 81, 112, 0.8);
             border-radius: 8px;
             padding: 10px;
             z-index: 1;
@@ -283,7 +342,43 @@
         .join-request-actions button:last-child:hover {
             background-color: #d32f2f;
         }
-      
+
+        .join-team {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #385170;
+            border-radius: 8px;
+            color: #F1F1F2;
+        }
+
+        .join-team h2 {
+            margin-bottom: 20px;
+        }
+
+        .join-team label {
+            font-weight: bold;
+        }
+
+        .join-team input[type="text"] {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .join-team button {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: #F1F1F2;
+            cursor: pointer;
+            font-family: "Arial Black", Arial, sans-serif; 
+        }
+
+        .join-team button:hover {
+            background-color: #45a049;
+        }
+
     </style>
 </head>
 <body>
@@ -301,58 +396,27 @@
             <a href="logout.php">Logout</a>
         </div>
 
-        <div class="join-requests">
-            <h2>Richieste di unione</h2>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-            <?php
-    $servername = "localhost";
-    $username = "jacopo";
-    $password = "Dianaidra24?";
-    $dbname = "sport_portal_db";
-
-    // Crea una connessione
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Verifica la connessione
-    if ($conn->connect_error) {
-        die("Connessione fallita: " . $conn->connect_error);
-    }
-
-    // Query per recuperare le richieste
-    $sql = "SELECT id, nome, cognome, data_nascita, username, email, ruolo FROM richieste_giocatori";
-    $result = $conn->query($sql);
-
-    // Chiudi la connessione
-    $conn->close();
-?>
-
-<!-- Visualizza le richieste -->
-<?php
-    if ($result && $result->num_rows > 0) {
-        while ($request = $result->fetch_assoc()) {
-            echo "<div class='join-request-details'>";
-            echo "<label>Nome:</label><input type='text' value='" . $request['nome'] . "' disabled>";
-            echo "<label>Cognome:</label><input type='text' value='" . $request['cognome'] . "' disabled>";
-            echo "<label>Data di Nascita:</label><input type='text' value='" . $request['data_nascita'] . "' disabled>";
-            echo "<label>Nome utente:</label><input type='text' value='" . $request['username'] . "' disabled>";
-            echo "<label>Email:</label><input type='text' value='" . $request['email'] . "' disabled>";
-            echo "<label>Ruolo:</label>";
-            echo "<select name='role[]'>";
-            echo "<option value='preparatore' " . ($request['ruolo'] == 'preparatore' ? 'selected' : '') . ">Preparatore</option>";
-            echo "<option value='giocatore' " . ($request['ruolo'] == 'giocatore' ? 'selected' : '') . ">Giocatore</option>";
-            echo "</select>";
-            echo "</div>";
-            echo "<div class='join-request-actions'>";
-            echo "<button onclick='acceptRequest(" . $request['id'] . ")'>Accetta</button>";
-            echo "<button onclick='rejectRequest(" . $request['id'] . ")'>Rifiuta</button>";
+        <?php
+        // Controlla se il giocatore fa parte di una squadra
+        if ($is_part_of_team) {
+            // Se il giocatore fa parte di una squadra, reindirizza alla home
+            header("Location: home_giocatore.php");
+            exit();
+        } else {
+            // Se il giocatore non fa parte di una squadra, mostra la sezione per unirsi a una squadra
+            echo "<div class='join-team'>";
+            echo "<h2>Unisciti a una squadra</h2>";
+            // Form per inviare la richiesta di unione
+            echo "<form action='home.php' method='POST'>";
+            
+            echo "<input type='text' id='team_code' name='cod_squadra' required><br>";
+            echo "<button type='submit'>Invia Richiesta</button>";
+            echo "</form>";
             echo "</div>";
         }
-    } else {
-        echo "<p>Nessuna richiesta di unione trovata.</p>";
-    }
-?>
-                
-
+        ?>
+    </div>
+    </div>
 
     <script>
         function toggleMenu() {

@@ -41,8 +41,8 @@ $result_username = $stmt_username->get_result();
 // Controlla se esiste un record con lo stesso nome utente
 if ($result_username->num_rows > 0) {
     // Il nome utente esiste già nel database, mostra un messaggio di errore
-    
-    header("Location: register.php");
+    echo "<script>alert('Nome utente già esistente.');</script>";
+    echo "<script>window.location.href='register.php';</script>";    
     exit();
 }
 
@@ -57,8 +57,9 @@ $result_email = $stmt_email->get_result();
 // Controlla se esiste un record con la stessa email
 if ($result_email->num_rows > 0) {
     // L'email esiste già nel database, mostra un messaggio di errore
+    echo "<script>alert('Email già esistente.');</script>";
+    echo "<script>window.location.href='register.php';</script>";
     
-    header("Location: register.php");
     exit();
 }
 
