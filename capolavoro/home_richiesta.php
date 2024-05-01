@@ -1,3 +1,87 @@
+<?php
+// Avvia la sessione
+session_start();
+
+// Controlla se l'utente è loggato, altrimenti reindirizza alla pagina di login
+if (!isset($_SESSION['username'])) {
+    header("Location: index.php");
+    exit();
+}
+
+// Connessione al database
+$servername = "localhost";
+$username = "jacopo";
+$password = "Dianaidra24?";
+$dbname = "sport_portal_db";
+
+// Crea una connessione
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Controlla la connessione
+if ($conn->connect_error) {
+    die("Connessione fallita: " . $conn->connect_error);
+}
+
+// Variabile per memorizzare il messaggio di successo
+$success_message = "";
+
+// Se il form di richiesta è stato inviato
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Recupera il codice squadra inviato dal form
+    $cod_squadra = $_POST['cod_squadra'];
+    
+    // Recupera l'username memorizzato nella sessione
+    $username = $_SESSION['username'];
+    
+    // Query per ottenere Nome, Cognome, Data di Nascita ed Email dall'username
+    $user_stmt = $conn->prepare("SELECT nome, cognome, data_nascita, email FROM users WHERE username = ?");
+    $user_stmt->bind_param("s", $username);
+    $user_stmt->execute();
+    $user_result = $user_stmt->get_result();
+    
+    // Verifica se l'utente esiste nel database
+    if ($user_result->num_rows > 0) {
+        // Ottieni i dati dell'utente
+        $user_row = $user_result->fetch_assoc();
+        $nome = $user_row['nome'];
+        $cognome = $user_row['cognome'];
+        $data_nascita = $user_row['data_nascita'];
+        $email = $user_row['email'];
+
+        // Query per verificare se il codice squadra esiste nel database
+        $stmt = $conn->prepare("SELECT * FROM users WHERE cod_squadra = ?");
+        $stmt->bind_param("s", $cod_squadra);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // Se il codice squadra esiste nel database
+        if ($result->num_rows > 0) {
+            // Query per inserire la richiesta nella tabella richieste_giocatori
+            $insert_stmt = $conn->prepare("INSERT INTO richieste_giocatori (nome, cognome, data_nascita, email, username, cod_squadra) VALUES (?, ?, ?, ?, ?, ?)");
+            $insert_stmt->bind_param("ssssss", $nome, $cognome, $data_nascita, $email, $username, $cod_squadra);
+            $insert_stmt->execute();
+
+            // Memorizza il messaggio di successo
+            echo "<script>alert('Richiesta inviata');</script>";
+            echo "<script>window.location.href='home_richiesta.php';</script>";
+        } else {
+            // Se il codice squadra non esiste, mostra un messaggio di errore
+            echo "<script>alert('Codice squadra non trovato');</script>";
+            echo "<script>window.location.href='home_richiesta.php';</script>";
+        }
+    } else {
+        // Se l'utente non esiste nel database, mostra un messaggio di errore
+        echo "<script>alert('Utente non trovato.');</script>";
+        echo "<script>window.location.href='home_richiesta.php';</script>";
+    }
+}
+
+// Chiudi la connessione al database
+$conn->close();
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,7 +133,7 @@
             position: absolute;
             top: 40px;
             right: 20px;
-            background-color: rgba(56, 81, 112, 0.9);
+            background-color: rgba(56, 81, 112, 0.8);
             border-radius: 8px;
             padding: 10px;
             z-index: 1;
@@ -69,6 +153,8 @@
         .menu a[href="logout.php"]:hover {
             color: #f95959; 
         }
+
+       
 
         @media (max-width: 300px) {
             .container {
@@ -283,29 +369,65 @@
         .join-request-actions button:last-child:hover {
             background-color: #d32f2f;
         }
-      
+
+        .join-team {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #385170;
+            border-radius: 8px;
+            color: #F1F1F2;
+        }
+
+        .join-team h2 {
+            margin-bottom: 20px;
+        }
+
+        .join-team label {
+            font-weight: bold;
+        }
+
+        .join-team input[type="text"] {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .join-team button {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #2c786c;
+            color: #F1F1F2;
+            cursor: pointer;
+            font-family: "Arial Black", Arial, sans-serif; 
+        }
+
+        .join-team button:hover {
+            background-color: #45a049;
+        }
+
     </style>
 </head>
 <body>
+    
     <div class="container">
         <img src="name_design.png" class="name-design" alt="Name Design">
         <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()">
         <div class="menu" id="menu">
-            <a href="#">Persone</a>
-            <a href="#">Statistiche</a>
-            <a href="#">Chat</a>
-            <a href="#">Allenamenti</a>
-            <a href="#">Calendario</a>
-            <a href="#">Pannello di controllo</a>
             <a href="#">Impostazioni</a>
             <a href="logout.php">Logout</a>
         </div>
+        <div class='join-team'>
+            <h2>Unisciti a una squadra</h2>
+            <form method="post" action="home_richiesta.php">
+             <label for="cod_squadra"> </label>
+             <input type="text" id="cod_squadra" name="cod_squadra"><br>
+             <button type="submit">Invia Richiesta</button>
+            </form>
+        </div>
+      
 
-        <div class="join-requests">
-            <h2>Richieste di unione</h2>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-
-            <script>
+    <script>
         function toggleMenu() {
             var menu = document.getElementById("menu");
             menu.style.display = menu.style.display === "block" ? "none" : "block";
@@ -313,69 +435,15 @@
 
         function acceptRequest() {
             alert("Richiesta accettata!");
-            // Quando l'allenatore accetta la richiesta
-            // Esegui un'operazione simile a questa per aggiornare lo stato della richiesta
-            $update_stmt = $conn->prepare("UPDATE richieste_giocatori SET stato = TRUE WHERE id = ?");
-            $update_stmt->bind_param("i", $id_della_richiesta_da_accettare);
-            $update_stmt->execute();
-        }
-
-            // Dopo aver aggiornato lo stato della richiesta, reindirizza l'utente a home_giocatore.php solo se la richiesta è stata accettata
-            if ($update_stmt->affected_rows > 0) {
-            header("Location: home_giocatore.php");
-            exit();
+            // Qui puoi aggiungere il codice per accettare la richiesta
         }
 
         function rejectRequest() {
             alert("Richiesta rifiutata!");
             // Qui puoi aggiungere il codice per rifiutare la richiesta
         }
+
+      
     </script>
-
-    
- <?php
-    $servername = "localhost";
-    $username = "jacopo";
-    $password = "Dianaidra24?";
-    $dbname = "sport_portal_db";
-
-    // Crea una connessione
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Verifica la connessione
-    if ($conn->connect_error) {
-        die("Connessione fallita: " . $conn->connect_error);
-    }
-
-    // Query per recuperare le richieste
-    $sql = "SELECT id, nome, cognome, data_nascita, username, email, ruolo FROM richieste_giocatori";
-    $result = $conn->query($sql);
-
-    // Chiudi la connessione
-    $conn->close();
-
-    if ($result && $result->num_rows > 0) {
-        while ($request = $result->fetch_assoc()) {
-            echo "<div class='join-request-details'>";
-             echo "<input type='text' value='" . $request['nome'] . "' disabled>";
-             echo "<input type='text' value='" . $request['cognome'] . "' disabled>";
-             echo "<input type='text' value='" . $request['data_nascita'] . "' disabled>";
-             echo "<input type='text' value='" . $request['username'] . "' disabled>";
-             echo "<input type='text' value='" . $request['email'] . "' disabled>";
-            echo "<select name='role[]'>";
-             echo "<option value='preparatore' " . ($request['ruolo'] == 'preparatore' ? 'selected' : '') . ">Preparatore</option>";
-             echo "<option value='giocatore' " . ($request['ruolo'] == 'giocatore' ? 'selected' : '') . ">Giocatore</option>";
-            echo "</select>";
-            echo "</div>";
-            echo "<div class='join-request-actions'>";
-             echo "<button onclick='acceptRequest(" . $request['id'] . ")'>Accetta</button>";
-             echo "<button onclick='rejectRequest(" . $request['id'] . ")'>Rifiuta</button>";
-            echo "</div>";
-        }
-    } else {
-        echo "<p>Nessuna richiesta di unione trovata.</p>";
-    }
-?>
-                
 </body>
 </html>

@@ -12,8 +12,8 @@
             margin: 0;
             padding: 0;
             font-family: "Arial Black", Arial, sans-serif;
-            background-color: #F1F1F2; 
-            color: white;
+            background-color: #081f37; 
+            color: #F1F1F2;
             background-image: url('sfondo.png');
             background-size: cover; 
             background-position: center; 

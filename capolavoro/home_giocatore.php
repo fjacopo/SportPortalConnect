@@ -396,25 +396,6 @@ $conn->close();
             <a href="logout.php">Logout</a>
         </div>
 
-        <?php
-        // Controlla se il giocatore fa parte di una squadra
-        if ($is_part_of_team) {
-            // Se il giocatore fa parte di una squadra, reindirizza alla home
-            header("Location: home_giocatore.php");
-            exit();
-        } else {
-            // Se il giocatore non fa parte di una squadra, mostra la sezione per unirsi a una squadra
-            echo "<div class='join-team'>";
-            echo "<h2>Unisciti a una squadra</h2>";
-            // Form per inviare la richiesta di unione
-            echo "<form action='home.php' method='POST'>";
-            
-            echo "<input type='text' id='team_code' name='cod_squadra' required><br>";
-            echo "<button type='submit'>Invia Richiesta</button>";
-            echo "</form>";
-            echo "</div>";
-        }
-        ?>
     </div>
     </div>
 
