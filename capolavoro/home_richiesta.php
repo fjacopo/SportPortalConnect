@@ -29,16 +29,31 @@ $success_message = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recupera il codice squadra inviato dal form
     $cod_squadra = $_POST['cod_squadra'];
-    
+
     // Recupera l'username memorizzato nella sessione
     $username = $_SESSION['username'];
-    
+
+    // Query per verificare se l'utente ha già una richiesta di unione in sospeso
+    $existing_request_stmt = $conn->prepare("SELECT * FROM richieste_giocatori WHERE username = ?");
+    $existing_request_stmt->bind_param("s", $username);
+    $existing_request_stmt->execute();
+    $existing_request_result = $existing_request_stmt->get_result();
+
+    // Verifica se l'utente ha già una richiesta di unione in sospeso
+    if ($existing_request_result->num_rows > 0) {
+        // Se l'utente ha già una richiesta di unione in sospeso, mostra un messaggio di errore
+        echo "<script>alert('Hai già inviato una richiesta di unione. Attendi la risposta.');</script>";
+        echo "<script>window.location.href='home_richiesta.php';</script>";
+        exit(); // Termina lo script
+    }
+
+    // Altrimenti, procedi con l'inserimento della nuova richiesta di unione
     // Query per ottenere Nome, Cognome, Data di Nascita ed Email dall'username
     $user_stmt = $conn->prepare("SELECT nome, cognome, data_nascita, email FROM users WHERE username = ?");
     $user_stmt->bind_param("s", $username);
     $user_stmt->execute();
     $user_result = $user_stmt->get_result();
-    
+
     // Verifica se l'utente esiste nel database
     if ($user_result->num_rows > 0) {
         // Ottieni i dati dell'utente
@@ -424,7 +439,7 @@ $conn->close();
             <h2>Unisciti a una squadra</h2>
             <form method="post" action="home_richiesta.php">
              <label for="cod_squadra"> </label>
-             <input type="text" id="cod_squadra" name="cod_squadra"><br>
+             <input type="text" id="cod_squadra" name="cod_squadra" required><br>
              <button type="submit">Invia Richiesta</button>
             </form>
         </div>
@@ -436,15 +451,7 @@ $conn->close();
             menu.style.display = menu.style.display === "block" ? "none" : "block";
         }
 
-        function acceptRequest() {
-            alert("Richiesta accettata!");
-            // Qui puoi aggiungere il codice per accettare la richiesta
-        }
-
-        function rejectRequest() {
-            alert("Richiesta rifiutata!");
-            // Qui puoi aggiungere il codice per rifiutare la richiesta
-        }
+        
     </script>
 </body>
 </html>

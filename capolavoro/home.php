@@ -238,7 +238,7 @@
             border-radius: 8px;
             color: #F1F1F2;
             overflow-y: auto; /* Abilita lo scrolling verticale */
-            max-height: 165px; 
+            max-height: 177px; 
         }
 
         .join-requests h2 {
@@ -249,19 +249,38 @@
             display: flex;
             justify-content: space-between; /* Distribuisce gli elementi uniformemente lungo il container */
             align-items: center; /* Allinea verticalmente al centro */
-            
+            padding: 10px;
+            border-bottom: 1px solid #385170;
         }
 
         .join-request-details {
             flex: 1; /* Occupa lo spazio disponibile */
+            text-align: left;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .join-request-details input,
+        .join-request-details select {
+            border: none;
+            background-color: transparent;
+           
+            margin-bottom: 10px;
+            font-family: "Arial Black", Arial, sans-serif;
+            font-size: 15px; /* Aumenta la dimensione del font */
+            color: #F1F1F2;
+            width: 240px; /* Allunga il campo email */
         }
 
         .join-request-actions {
-            margin-left: 20px; /* Aggiunge uno spazio tra i dettagli e i pulsanti */
+            display: flex;
+            align-items: center; /* Allinea verticalmente al centro */
         }
 
         .join-request-actions button {
-            padding: 6px 30px;
+            margin-top: 10px;
+            margin-left: 5px; /* Aggiunge spazio tra i pulsanti */
+            padding: 6px 20px;
             border: none;
             border-radius: 5px;
             background-color: #17b794;
@@ -280,6 +299,24 @@
 
         .join-request-actions button:last-child:hover {
             background-color: #d32f2f;
+        }
+
+        /* Stile della scrollbar */
+        .join-requests::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .join-requests::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .join-requests::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 5px;
+        }
+
+        .join-requests::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
         }
     </style>
 </head>
@@ -314,6 +351,7 @@
                       die("Connessione fallita: " . $conn->connect_error);
                   }
               
+                
                   // Query per recuperare le richieste
                   $sql = "SELECT id, nome, cognome, data_nascita, username, email, ruolo FROM richieste_giocatori";
                   $result = $conn->query($sql);
@@ -323,20 +361,22 @@
               
                   if ($result && $result->num_rows > 0) {
                       while ($request = $result->fetch_assoc()) {
+                          echo "<div class='join-request'>";
                           echo "<div class='join-request-details'>";
-                           echo "<input type='text' value='" . $request['nome'] . "' disabled>";
-                           echo "<input type='text' value='" . $request['cognome'] . "' disabled>";
-                           echo "<input type='text' value='" . $request['data_nascita'] . "' disabled>";
-                           echo "<input type='text' value='" . $request['username'] . "' disabled>";
-                           echo "<input type='text' value='" . $request['email'] . "' disabled>";
+                          echo "<input type='text' value=' " . $request['nome'] . "' disabled>";
+                          echo "<input type='text' value=' " . $request['cognome'] . "' disabled>";
+                          echo "<input type='text' value=' " . $request['data_nascita'] . "' disabled>";
+                          echo "<input type='text' value=' " . $request['username'] . "' disabled>";
+                          echo "<input type='text' value='" . $request['email'] . "' disabled>"; // Correggo la visualizzazione dell'email
                           echo "<select name='role[]'>";
-                           echo "<option value='preparatore' " . ($request['ruolo'] == 'preparatore' ? 'selected' : '') . ">Preparatore</option>";
-                           echo "<option value='giocatore' " . ($request['ruolo'] == 'giocatore' ? 'selected' : '') . ">Giocatore</option>";
+                          echo "<option value='preparatore' " . ($request['ruolo'] == 'preparatore' ? 'selected' : '') . ">Preparatore</option>";
+                          echo "<option value='giocatore' " . ($request['ruolo'] == 'giocatore' ? 'selected' : '') . ">Giocatore</option>";
                           echo "</select>";
                           echo "</div>";
                           echo "<div class='join-request-actions'>";
-                           echo "<button onclick='acceptRequest(" . $request['id'] . ")'>Accetta</button>";
-                           echo "<button onclick='rejectRequest(" . $request['id'] . ")'>Rifiuta</button>";
+                          echo "<button onclick='acceptRequest(" . $request['id'] . ")'>Accetta</button>";
+                          echo "<button onclick='rejectRequest(" . $request['id'] . ")'>Rifiuta</button>";
+                          echo "</div>";
                           echo "</div>";
                       }
                   } else {
@@ -353,14 +393,35 @@
         }
 
         function acceptRequest(id) {
-            alert("Richiesta accettata!");
-            // Qui puoi aggiungere il codice per accettare la richiesta con l'ID specificato
-        }
+        // Effettua una richiesta AJAX per accettare la richiesta nel database
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "accetta_richiesta.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Se l'operazione è completata con successo, ricarica la pagina per aggiornare l'elenco delle richieste
+                location.reload();
+            }
+        };
+        xhr.send("request_id=" + id);
+    }
 
-        function rejectRequest(id) {
-            alert("Richiesta rifiutata!");
-            // Qui puoi aggiungere il codice per rifiutare la richiesta con l'ID specificato
-        }
+    // Funzione per gestire il rifiuto di una richiesta
+    function rejectRequest(id) {
+        // Effettua una richiesta AJAX per rifiutare la richiesta nel database
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "rifiuta_richiesta.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Se l'operazione è completata con successo, ricarica la pagina per aggiornare l'elenco delle richieste
+                location.reload();
+            }
+        };
+        xhr.send("request_id=" + id);
+    }
+
+     
     </script>
 </body>
 </html>

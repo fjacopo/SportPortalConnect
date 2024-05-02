@@ -405,15 +405,7 @@ $conn->close();
             menu.style.display = menu.style.display === "block" ? "none" : "block";
         }
 
-        function acceptRequest() {
-            alert("Richiesta accettata!");
-            // Qui puoi aggiungere il codice per accettare la richiesta
-        }
-
-        function rejectRequest() {
-            alert("Richiesta rifiutata!");
-            // Qui puoi aggiungere il codice per rifiutare la richiesta
-        }
+       
     </script>
 </body>
 </html>
