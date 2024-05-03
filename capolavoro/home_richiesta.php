@@ -109,7 +109,7 @@ $conn->close();
             margin: 0;
             padding: 0;
             font-family: "Arial Black", Arial, sans-serif;
-            background-color: #081f37;
+            background-color: #121212;
             color: #F1F1F2;
             position: relative;
         }
@@ -389,7 +389,7 @@ $conn->close();
         .join-team {
             margin-top: 40px;
             padding: 20px;
-            background-color: #385170;
+            background-color: #081f37;
             border-radius: 8px;
             color: #F1F1F2;
         }
@@ -424,6 +424,21 @@ $conn->close();
             background-color: #45a049;
         }
 
+        footer {
+            background-color: #1e549f;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
     </style>
 </head>
 <body>
@@ -432,7 +447,7 @@ $conn->close();
         <img src="name_design.png" class="name-design" alt="Name Design">
         <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()">
         <div class="menu" id="menu">
-            <a href="#">Impostazioni</a>
+            <a href="impostazioni.php">Impostazioni</a>
             <a href="logout.php">Logout</a>
         </div>
         <div class='join-team'>
@@ -453,5 +468,9 @@ $conn->close();
 
         
     </script>
+
+    <footer>
+        <p>&copy; 2024 Sport Portal Connect. Tutti i diritti riservati.</p>
+    </footer>   
 </body>
 </html>

@@ -70,7 +70,7 @@ $conn->close();
             margin: 0;
             padding: 0;
             font-family: "Arial Black", Arial, sans-serif;
-            background-color: #081f37;
+            background-color: #121212;
             color: #F1F1F2;
             position: relative;
         }
@@ -379,6 +379,21 @@ $conn->close();
             background-color: #45a049;
         }
 
+        footer {
+            background-color: #1e549f;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
     </style>
 </head>
 <body>
@@ -391,8 +406,7 @@ $conn->close();
             <a href="#">Chat</a>
             <a href="#">Allenamenti</a>
             <a href="#">Calendario</a>
-            <a href="#">Pannello di controllo</a>
-            <a href="#">Impostazioni</a>
+            <a href="impostazioni.php">Impostazioni</a>
             <a href="logout.php">Logout</a>
         </div>
 
@@ -407,5 +421,9 @@ $conn->close();
 
        
     </script>
+
+    <footer>
+        <p>&copy; 2024 Sport Portal Connect. Tutti i diritti riservati.</p>
+    </footer>
 </body>
 </html>

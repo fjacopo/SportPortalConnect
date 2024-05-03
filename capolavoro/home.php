@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             font-family: "Arial Black", Arial, sans-serif;
-            background-color: #081f37;
+            background-color: #121212;
             color: #F1F1F2;
             position: relative;
         }
@@ -69,30 +69,7 @@
             color: #f95959; 
         }
 
-        @media (max-width: 300px) {
-            .container {
-                padding: 10px;
-            }
-
-            .menu-icon {
-                top: 10px;
-                right: 10px;
-                width: 25px;
-            }
-
-            .menu {
-                top: 30px;
-                right: 10px;
-                width: 100px;
-            }
-
-            .name-design {
-                max-height: 150px; 
-                width: 100%; 
-            }
-        }
-
-        @media (min-width: 301px) and (max-width: 480px) {
+        @media (max-width: 768px) {
             .container {
                 padding: 20px;
             }
@@ -115,118 +92,32 @@
             }
         }
 
-        @media (min-width: 481px) and (max-width: 600px) {
+        @media (max-width: 480px) {
             .container {
-                padding: 30px;
+                padding: 10px;
             }
 
             .menu-icon {
-                top: 20px;
-                right: 20px;
-                width: 35px;
+                top: 10px;
+                right: 10px;
+                width: 25px;
             }
 
             .menu {
-                top: 50px;
-                right: 20px;
-                width: 180px;
-            }
-
-            .name-design {
-                max-height: 250px; 
-                width: 85%; 
-            }
-        }
-    
-        @media only screen and (min-width: 601px) and (max-width: 768px) {
-            .container {
-                padding: 30px;
-            }
-
-            .menu-icon {
-                top: 15px;
-                right: 15px;
-                width: 35px;
-            }
-
-            .menu {
-                top: 50px;
-                right: 15px;
-                width: 180px;
-            }
-
-            .name-design {
-                max-height: 250px; 
-                width: 80%; 
-            }
-        }
-
-        @media only screen and (min-width: 769px) and (max-width: 992px) {
-            .container {
-                padding: 40px;
-            }
-
-            .menu-icon {
-                top: 20px;
-                right: 20px;
-                width: 40px;
-            }
-
-            .menu {
-                top: 60px;
-                right: 20px;
-                width: 200px;
-            }
-
-            .name-design {
-                max-height: 300px; 
-                width: 75%; 
-            }
-        }
-
-        @media only screen and (min-width: 993px) and (max-width: 1200px) {
-            .container {
-                padding: 50px;
-            }
-
-            .menu-icon {
-                top: 25px;
-                right: 25px;
-                width: 50px;
-            }
-
-            .menu {
-                top: 70px;
-                right: 25px;
-                width: 220px;
-            }
-
-            .name-design {
-                max-height: 350px; 
-                width: 70%; 
-            }
-        }
-
-        @media only screen and (min-width: 1201px) {
-            .container {
-                padding: 60px;
-            }
-
-            .menu-icon {
                 top: 30px;
-                right: 30px;
-                width: 60px;
-            }
-
-            .menu {
-                top: 80px;
-                right: 30px;
-                width: 240px;
+                right: 10px;
+                width: 100px;
             }
 
             .name-design {
-                max-height: 400px; 
-                width: 60%; 
+                max-height: 150px; 
+                width: 100%; 
+            }
+        }
+
+        @media (max-width: 320px) {
+            .name-design {
+                max-height: 120px; 
             }
         }
        
@@ -238,11 +129,12 @@
             border-radius: 8px;
             color: #F1F1F2;
             overflow-y: auto; /* Abilita lo scrolling verticale */
-            max-height: 177px; 
+            max-height: 166px; 
         }
 
         .join-requests h2 {
             margin-bottom: 20px;
+            font-size:18px;
         }
 
         .join-request {
@@ -301,7 +193,7 @@
             background-color: #d32f2f;
         }
 
-        /* Stile della scrollbar */
+      
         .join-requests::-webkit-scrollbar {
             width: 10px;
         }
@@ -318,10 +210,27 @@
         .join-requests::-webkit-scrollbar-thumb:hover {
             background-color: #555;
         }
+
+        footer {
+            background-color: #1e549f;
+            color: #f1f1f2;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0px;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 0;
+        }
     </style>
+
 </head>
 <body>
     <div class="container">
+      
        <img src="name_design.png" class="name-design" alt="Name Design">
        <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()" id="menu-icon">
         <div class="menu" id="menu">
@@ -330,13 +239,13 @@
             <a href="#">Chat</a>
             <a href="#">Allenamenti</a>
             <a href="#">Calendario</a>
-            <a href="#">Pannello di controllo</a>
-            <a href="#">Impostazioni</a>
+            <a href="impostazioni.php">Impostazioni</a>
             <a href="logout.php">Logout</a>
         </div>
         
         <div class="join-requests">
             <h2>Richieste di unione</h2>
+            
             <?php
                   $servername = "localhost";
                   $username = "jacopo";
@@ -350,7 +259,7 @@
                   if ($conn->connect_error) {
                       die("Connessione fallita: " . $conn->connect_error);
                   }
-              
+                  
                 
                   // Query per recuperare le richieste
                   $sql = "SELECT id, nome, cognome, data_nascita, username, email, ruolo FROM richieste_giocatori";
@@ -367,7 +276,7 @@
                           echo "<input type='text' value=' " . $request['cognome'] . "' disabled>";
                           echo "<input type='text' value=' " . $request['data_nascita'] . "' disabled>";
                           echo "<input type='text' value=' " . $request['username'] . "' disabled>";
-                          echo "<input type='text' value='" . $request['email'] . "' disabled>"; // Correggo la visualizzazione dell'email
+                          echo "<input type='text' value='" . $request['email'] . "' disabled>"; 
                           echo "<select name='role[]'>";
                           echo "<option value='preparatore' " . ($request['ruolo'] == 'preparatore' ? 'selected' : '') . ">Preparatore</option>";
                           echo "<option value='giocatore' " . ($request['ruolo'] == 'giocatore' ? 'selected' : '') . ">Giocatore</option>";
@@ -385,6 +294,8 @@
             ?>
         </div>
     </div>
+
+</div>
     
     <script>
         function toggleMenu() {
@@ -421,7 +332,13 @@
         xhr.send("request_id=" + id);
     }
 
+    
+
      
     </script>
+
+    <footer>
+        <p>&copy; 2024 Sport Portal Connect. Tutti i diritti riservati.</p>
+    </footer>
 </body>
 </html>

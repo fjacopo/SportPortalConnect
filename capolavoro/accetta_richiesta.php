@@ -5,50 +5,54 @@ $username = "jacopo";
 $password = "Dianaidra24?";
 $dbname = "sport_portal_db";
 
-$conn = new mysqli($servername, $db_username, $db_password, $dbname);
+// Crea una connessione
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verifica se è stata inviata una richiesta POST
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Controlla se il campo "username" è stato inviato
-    if (isset($_POST["username"])) {
-        // Recupera l'username dalla richiesta POST
-        $username = $_POST["username"];
-        
+// Controlla la connessione
+if ($conn->connect_error) {
+    die("Connessione fallita: " . $conn->connect_error);
+}
 
-        // Verifica la connessione
-        if ($conn->connect_error) {
-            die("Connessione al database fallita: " . $conn->connect_error);
-        }
+// Recupera l'ID della richiesta dalla richiesta POST
+$request_id = $_POST['request_id'];
 
-        // Query per aggiungere l'utente alla squadra e aggiornare il ruolo
-        $update_query = "UPDATE users SET cod_squadra = 'nomesquadra', ruolo = 'nuovoruolo' WHERE username = '$username'";
-        
-        if ($conn->query($update_query) === TRUE) {
-            // Query per rimuovere l'utente dalla tabella delle richieste
-            $delete_query = "DELETE FROM richieste_giocatori WHERE username = '$username'";
-            
-            if ($conn->query($delete_query) === TRUE) {
-                // Reindirizza alla home dopo aver accettato la richiesta
-                header("Location: home.php");
-                exit; // Assicura che lo script si interrompa qui dopo il reindirizzamento
-            } else {
-                echo "Errore durante l'eliminazione della richiesta: " . $conn->error;
-            }
-        } else {
-            echo "Errore durante l'aggiornamento dell'utente: " . $conn->error;
-        }
+// Recupera i dettagli della richiesta
+$stmt = $conn->prepare("SELECT username, cod_squadra FROM richieste_giocatori WHERE id = ?");
+$stmt->bind_param("i", $request_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
-        // Chiudi la connessione al database
-        $conn->close();
-        
+// Verifica se la richiesta esiste
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $username = $row['username'];
+    $cod_squadra = $row['cod_squadra'];
+
+    // Rimuovi la richiesta dalla tabella richieste_giocatori
+    $stmt_delete_request = $conn->prepare("DELETE FROM richieste_giocatori WHERE id = ?");
+    $stmt_delete_request->bind_param("i", $request_id);
+    $result_delete_request = $stmt_delete_request->execute();
+
+    // Aggiorna il cod_squadra dell'utente nella tabella users
+    $stmt_update_user = $conn->prepare("UPDATE users SET cod_squadra = ? WHERE username = ?");
+    $stmt_update_user->bind_param("ss", $cod_squadra, $username);
+    $result_update_user = $stmt_update_user->execute();
+
+    if ($result_delete_request && $result_update_user) {
+        // Operazioni completate con successo
+        echo "success";
     } else {
-        // Se il campo "username" non è stato inviato, restituisci un errore
-        http_response_code(400); // Bad Request
-        echo "Il campo 'username' non è stato fornito nella richiesta.";
+        // Errore nell'aggiornamento
+        echo "error";
     }
 } else {
-    // Se la richiesta non è di tipo POST, restituisci un errore
-    http_response_code(405); // Method Not Allowed
-    echo "Sono consentite solo richieste POST per questo endpoint.";
+    // Nessuna richiesta trovata
+    echo "not_found";
 }
+
+// Chiudi le query e la connessione al database
+$stmt->close();
+$stmt_delete_request->close();
+$stmt_update_user->close();
+$conn->close();
 ?>
