@@ -69,30 +69,7 @@
             color: #f95959; 
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-
-            .menu-icon {
-                top: 15px;
-                right: 15px;
-                width: 30px;
-            }
-
-            .menu {
-                top: 40px;
-                right: 15px;
-                width: 150px;
-            }
-
-            .name-design {
-                max-height: 200px; 
-                width: 90%; 
-            }
-        }
-
-        @media (max-width: 480px) {
+        @media (max-width: 300px) {
             .container {
                 padding: 10px;
             }
@@ -115,9 +92,141 @@
             }
         }
 
-        @media (max-width: 320px) {
+        @media (min-width: 301px) and (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            .menu-icon {
+                top: 15px;
+                right: 15px;
+                width: 30px;
+            }
+
+            .menu {
+                top: 40px;
+                right: 15px;
+                width: 150px;
+            }
+
             .name-design {
-                max-height: 120px; 
+                max-height: 200px; 
+                width: 90%; 
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 600px) {
+            .container {
+                padding: 30px;
+            }
+
+            .menu-icon {
+                top: 20px;
+                right: 20px;
+                width: 35px;
+            }
+
+            .menu {
+                top: 50px;
+                right: 20px;
+                width: 180px;
+            }
+
+            .name-design {
+                max-height: 250px; 
+                width: 85%; 
+            }
+        }
+    
+        @media only screen and (min-width: 601px) and (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+
+            .menu-icon {
+                top: 15px;
+                right: 15px;
+                width: 35px;
+            }
+
+            .menu {
+                top: 50px;
+                right: 15px;
+                width: 180px;
+            }
+
+            .name-design {
+                max-height: 250px; 
+                width: 80%; 
+            }
+        }
+
+        @media only screen and (min-width: 769px) and (max-width: 992px) {
+            .container {
+                padding: 40px;
+            }
+
+            .menu-icon {
+                top: 20px;
+                right: 20px;
+                width: 40px;
+            }
+
+            .menu {
+                top: 60px;
+                right: 20px;
+                width: 200px;
+            }
+
+            .name-design {
+                max-height: 300px; 
+                width: 75%; 
+            }
+        }
+
+        @media only screen and (min-width: 993px) and (max-width: 1200px) {
+            .container {
+                padding: 50px;
+            }
+
+            .menu-icon {
+                top: 25px;
+                right: 25px;
+                width: 50px;
+            }
+
+            .menu {
+                top: 70px;
+                right: 25px;
+                width: 220px;
+            }
+
+            .name-design {
+                max-height: 350px; 
+                width: 70%; 
+            }
+        }
+
+        @media only screen and (min-width: 1201px) {
+            .container {
+                padding: 60px;
+            }
+
+            .menu-icon {
+                top: 30px;
+                right: 30px;
+                width: 60px;
+            }
+
+            .menu {
+                top: 80px;
+                right: 30px;
+                width: 240px;
+            }
+
+            .name-design {
+                max-height: 400px; 
+                width: 60%; 
             }
         }
        

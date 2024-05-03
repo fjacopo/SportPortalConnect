@@ -142,6 +142,14 @@ $conn->close();
             height: auto;
         }        
 
+        .menu-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer; 
+            height: auto;
+        }        
+
         .menu {
             display: none;
             position: absolute;
@@ -447,7 +455,7 @@ $conn->close();
         <img src="name_design.png" class="name-design" alt="Name Design">
         <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()">
         <div class="menu" id="menu">
-            <a href="impostazioni.php">Impostazioni</a>
+            <a href="impostazioni_richiesta.php">Impostazioni</a>
             <a href="logout.php">Logout</a>
         </div>
         <div class='join-team'>

@@ -219,12 +219,7 @@
     <div class="container">
     <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()" id="menu-icon">
         <div class="menu" id="menu">
-            <a href="home_giocatore.php">Home</a>
-            <a href="#">Persone</a>
-            <a href="#">Statistiche</a>
-            <a href="#">Chat</a>
-            <a href="#">Allenamenti</a>
-            <a href="#">Calendario</a>
+            <a href="home_richiesta.php">Home</a>
             <a href="logout.php">Logout</a>
         </div>
         <h2>Modifica Impostazioni Account</h2>

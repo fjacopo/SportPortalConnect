@@ -65,7 +65,6 @@ $conn->close();
     <title>Sport Portal Connect</title>
     <link rel="icon" href="coach_icon.png" type="image/x-icon">
     <style>
-
         body {
             margin: 0;
             padding: 0;
@@ -290,110 +289,20 @@ $conn->close();
             }
         }
        
-        .join-requests {
-            text-align: left;
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #385170;
-            border-radius: 8px;
-            color: #F1F1F2;
-        }
-
-        .join-requests h2 {
-            margin-bottom: 20px;
-        }
-
-        .join-request-details {
-            margin-bottom: 20px;
-        }
-
-        .join-request-details label {
-            font-weight: bold;
-        }
-
-        .join-request-details select {
-            margin-left: 10px;
-            padding: 5px;
-            border-radius: 5px;
-        }
-
-        .join-request-actions {
-            margin-top: 20px;
-        }
-
-        .join-request-actions button {
-            margin-right: 10px;
-            padding: 8px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-
-        .join-request-actions button:hover {
-            background-color: #45a049;
-        }
-
-        .join-request-actions button:last-child {
-            background-color: #f44336;
-        }
-
-        .join-request-actions button:last-child:hover {
-            background-color: #d32f2f;
-        }
-
-        .join-team {
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #385170;
-            border-radius: 8px;
-            color: #F1F1F2;
-        }
-
-        .join-team h2 {
-            margin-bottom: 20px;
-        }
-
-        .join-team label {
-            font-weight: bold;
-        }
-
-        .join-team input[type="text"] {
-            margin-bottom: 10px;
-            padding: 5px;
-            border-radius: 5px;
-        }
-
-        .join-team button {
-            padding: 8px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: #F1F1F2;
-            cursor: pointer;
-            font-family: "Arial Black", Arial, sans-serif; 
-        }
-
-        .join-team button:hover {
-            background-color: #45a049;
-        }
-
         footer {
             background-color: #1e549f;
-            color: #fff;
+            color: #f1f1f2;
             padding: 20px;
             text-align: center;
             position: fixed;
             bottom: 0;
-            left: 0;
+            left: 0px;
             width: 100%;
         }
 
         footer p {
             margin: 0;
         }
-
     </style>
 </head>
 <body>
@@ -406,7 +315,7 @@ $conn->close();
             <a href="#">Chat</a>
             <a href="#">Allenamenti</a>
             <a href="#">Calendario</a>
-            <a href="impostazioni.php">Impostazioni</a>
+            <a href="impostazioni_giocatore.php">Impostazioni</a>
             <a href="logout.php">Logout</a>
         </div>
 
