@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -219,41 +224,33 @@
     <div class="container">
     <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()" id="menu-icon">
         <div class="menu" id="menu">
-            <a href="home_richiesta.php">Home</a>
+            <a href="home_richieste.php">Home</a>
             <a href="logout.php">Logout</a>
         </div>
-        <h2>Modifica Impostazioni Account</h2>
-        <form action="update_settings.php" method="POST">
+        <form action="aggiorna_impostazioni.php" method="POST">
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" value="example_user" disabled>
+            <input type="text" id="username" name="username" value="<?php echo $_SESSION['username']; ?>" disabled>
 
-            <label for="email">Email</label>
-            <input type="text" id="email" name="email" value="example@example.com">
+            <label for="current_password">Password Corrente</label>
+            <input type="password" id="current_password" name="current_password">
 
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password">
-            <label for="password">Nuova Password</label>
-            <input type="password" id="password" name="password">
-            <label for="password">Conferma nuova Password</label>
-            <input type="password" id="password" name="password">
+            <label for="new_password">Nuova Password</label>
+            <input type="password" id="new_password" name="new_password">
+
+            <label for="confirm_password">Conferma Nuova Password</label>
+            <input type="password" id="confirm_password" name="confirm_password">
             
+    
             <button type="submit">Salva Modifiche</button>
         </form>
 
-        <section>
-            <h2>Gestione Account</h2>
-            <ul>
-                <li><a href="delete_account.php">Elimina Account</a></li>
-            </ul>
-        </section>
-
-        
     </div>
     <script>
         function toggleMenu() {
             var menu = document.getElementById("menu");
             menu.style.display = menu.style.display === "block" ? "none" : "block";
         }
+
         </script>
 
     <footer>
