@@ -9,7 +9,7 @@
     <style>
         .error {
             color: red;
-            font-family: Arial, sans-serif;
+            font-family: "Arial Black", Arial, sans-serif;
         }
 
         body {
@@ -61,6 +61,7 @@
             border-radius: 4px;
             outline: none;
             color: Black;
+            font-family: "Arial Black", Arial, sans-serif;
         }
 
         .register-container select {

@@ -244,7 +244,7 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             <a href="#">Statistiche</a>
             <a href="#">Chat</a>
             <a href="#">Allenamenti</a>
-            <a href="#">Calendario</a>
+            <a href="calendario.php">Calendario</a>
             <a href="logout.php">Logout</a>
         </div>
         <form action="aggiorna_impostazioni.php" method="POST">

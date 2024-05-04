@@ -47,6 +47,7 @@
             outline: none;
             background-color: #F1F1F2;
             color: Black;
+            font-family: "Arial Black", Arial, sans-serif;
         }
 
         .container button {
@@ -95,6 +96,7 @@
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit">ACCEDI</button>
         </form>
+    
         <p>Sei un allenatore? <a href="register_coach.php">Registrati qui.</a></p>
         <p>Non hai un account? <a href="register.php">Registrati qui.</a></p>
         

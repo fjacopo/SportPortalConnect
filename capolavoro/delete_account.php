@@ -152,6 +152,124 @@ $conn->close();
             font-weight: normal;
         }
 
+       
+@media (max-width: 300px) {
+    .container {
+        padding: 20px;
+    }
+    h1, h2 {
+        font-size: 20px;
+    }
+    p {
+        font-size: 14px;
+    }
+    button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 301px) and (max-width: 480px) {
+    .container {
+        padding: 30px;
+    }
+    h1, h2 {
+        font-size: 22px;
+    }
+    p {
+        font-size: 17px;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 17px;
+    }
+}
+
+
+@media (min-width: 481px) and (max-width: 600px) {
+    .container {
+        padding: 40px;
+    }
+    h1, h2 {
+        font-size: 24px;
+    }
+    p {
+        font-size: 18px;
+    }
+    button {
+        padding: 12px 24px;
+        font-size: 18px;
+    }
+}
+
+
+@media only screen and (min-width: 601px) and (max-width: 768px) {
+    .container {
+        padding: 50px;
+    }
+    h1, h2 {
+        font-size: 26px;
+    }
+    p {
+        font-size: 20px;
+    }
+    button {
+        padding: 14px 28px;
+        font-size: 20px;
+    }
+}
+
+
+@media only screen and (min-width: 769px) and (max-width: 992px) {
+    .container {
+        padding: 60px;
+    }
+    h1, h2 {
+        font-size: 26px;
+    }
+    p {
+        font-size: 19px;
+    }
+    button {
+        padding: 16px 32px;
+        font-size: 18px;
+    }
+}
+
+
+@media only screen and (min-width: 993px) and (max-width: 1200px) {
+    .container {
+        padding: 70px;
+    }
+    h1, h2 {
+        font-size: 25px;
+    }
+    p {
+        font-size: 20px;
+    }
+    button {
+        padding: 18px 36px;
+        font-size: 20px;
+    }
+}
+
+
+@media only screen and (min-width: 1201px) {
+    .container {
+        padding: 80px;
+    }
+    h1, h2 {
+        font-size: 25px;
+    }
+    p {
+        font-size: 20px;
+    }
+    button {
+        padding: 20px 40px;
+        font-size: 20px;
+    }
+}
+
     </style>
 </head>
 <body>

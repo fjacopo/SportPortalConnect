@@ -53,6 +53,7 @@ if ($result->num_rows === 0) {
         $_SESSION['username'] = $username;
         $_SESSION['ruolo'] = $ruolo;
         $_SESSION['email'] = $email;
+        $_SESSION['cod_squadra'] = $cod_squadra;
 
         if ($ruolo === "Allenatore") {
             // Se l'utente è un allenatore, reindirizza alla home dell'allenatore

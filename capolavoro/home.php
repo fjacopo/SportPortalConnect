@@ -353,11 +353,20 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
         footer p {
             margin: 0;
         }
+        .team-code {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 14px;
+            color: #f1f1f2;
+        }
     </style>
 
 </head>
 <body>
     <div class="container">
+    <div class="team-code">Codice Squadra: <?php echo $_SESSION['cod_squadra']; ?></div>
+    
       
        <img src="name_design.png" class="name-design" alt="Name Design">
        <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()" id="menu-icon">
@@ -366,7 +375,7 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             <a href="#">Statistiche</a>
             <a href="#">Chat</a>
             <a href="#">Allenamenti</a>
-            <a href="#">Calendario</a>
+            <a href="calendario.php">Calendario</a>
             <a href="impostazioni.php">Impostazioni</a>
             <a href="logout.php">Logout</a>
         </div>
@@ -459,9 +468,6 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
         };
         xhr.send("request_id=" + id);
     }
-
-    
-
      
     </script>
 

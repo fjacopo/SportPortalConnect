@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 04, 2024 alle 21:06
+-- Creato il: Mag 04, 2024 alle 22:24
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -71,7 +71,7 @@ INSERT INTO `users` (`nome`, `cognome`, `data_nascita`, `email`, `username`, `pa
 ('a', 'a', '2019-05-03', 'aa@mail.com', 'a', '$2y$10$lThKiWCD5fCOk7Os60ioC.IRX7DJ6aQbrNlU46/u6yn5eZpl5MBoq', NULL, NULL),
 ('Allenatore', 'A', '2019-04-30', 'allenatore@gmail.com', 'allenatore', '$2y$10$pvVxgTrau0EhgqKqeA1l3O1O1vLIfmDHPvhN.O0fbXWojtLapUaiK', 'Allenatore', 'oM4F3yS0VZ'),
 ('Domenico', 'Manca', '2005-06-25', 'domymanca.ciao@gmail.com', 'DomeManca', '$2y$10$oUw8v0.Sor9zgjKr5Qz/FuBqXbxkyao77pelYKOgHyc0xp1Z3SaJm', NULL, NULL),
-('Jacopo', 'Ferrari', '2005-04-20', 'fjacopo10@gmail.com', 'ferrarijacopo', '$2y$10$LgTqMbeuqfxE12a5QXorzeDJe/DyUDCDsXeybcApaLCmCJc7n2OOa', 'Allenatore', 'GYH53FMNXY'),
+('Jacopo', 'Ferrari', '2005-04-20', 'fjacopo10@gmail.com', 'ferrarijacopo', '$2y$10$fXUk3gUdC0ezOZQQDGO.u.hWeYkHvWkUXodzbbolD.gJBGrzlIhiW', 'Allenatore', 'GYH53FMNXY'),
 ('prova', 'prova', '2019-05-03', 'prova@gmail.com', 'prova', '$2y$10$ATJqUSRJnTZf7CiRa8B71Oqlr7/m8nxf6HPjjGuIFq7X6tKEzUyc2', 'Preparatore', 'GYH53FMNXY');
 
 --
