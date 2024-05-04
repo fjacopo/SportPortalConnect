@@ -8,6 +8,12 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
+if ($_SESSION['ruolo'] !== null) {
+    // Se l'utente ha già un ruolo definito, reindirizza alla home page o a un'altra pagina
+    header("Location: home.php"); // Puoi cambiare il percorso se necessario
+    exit();
+}
+
 // Connessione al database
 $servername = "localhost";
 $username = "jacopo";

@@ -1,4 +1,21 @@
+<?php
+session_start();
 
+// Controllo se l'utente è autenticato
+if (!isset($_SESSION['username'])) {
+    // Reindirizzo alla pagina di accesso se l'utente non è autenticato
+    header("Location: index.php");
+    exit;
+}
+
+// Controllo se l'utente ha il ruolo di Allenatore
+if ($_SESSION['ruolo'] !== 'Allenatore') {
+    
+    header("Location: home.php");
+    exit;
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">

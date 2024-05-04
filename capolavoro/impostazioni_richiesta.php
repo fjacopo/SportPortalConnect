@@ -1,6 +1,18 @@
 <?php
+// Avvia la sessione
 session_start();
 
+// Controlla se l'utente è loggato, altrimenti reindirizza alla pagina di login
+if (!isset($_SESSION['username'])) {
+    header("Location: index.php");
+    exit();
+}
+
+if ($_SESSION['ruolo'] !== null) {
+    // Se l'utente ha già un ruolo definito, reindirizza alla home page o a un'altra pagina
+    header("Location: home.php"); // Puoi cambiare il percorso se necessario
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -224,12 +236,15 @@ session_start();
     <div class="container">
     <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()" id="menu-icon">
         <div class="menu" id="menu">
-            <a href="home_richieste.php">Home</a>
+            <a href="home_richiesta.php">Home</a>
             <a href="logout.php">Logout</a>
         </div>
         <form action="aggiorna_impostazioni.php" method="POST">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" value="<?php echo $_SESSION['username']; ?>" disabled>
+
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" value="<?php echo $_SESSION['email']; ?>" disabled>
 
             <label for="current_password">Password Corrente</label>
             <input type="password" id="current_password" name="current_password">
@@ -243,6 +258,12 @@ session_start();
     
             <button type="submit">Salva Modifiche</button>
         </form>
+        <section>
+            <h2>Gestione Account</h2>
+            <ul>
+                <li><a href="delete_account.php">Elimina Account</a></li>
+            </ul>
+        </section>
 
     </div>
     <script>

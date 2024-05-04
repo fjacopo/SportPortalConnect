@@ -51,6 +51,8 @@ if ($result->num_rows === 0) {
         
         // Memorizza l'username dell'utente loggato nella sessione
         $_SESSION['username'] = $username;
+        $_SESSION['ruolo'] = $ruolo;
+        $_SESSION['email'] = $email;
 
         if ($ruolo === "Allenatore") {
             // Se l'utente è un allenatore, reindirizza alla home dell'allenatore

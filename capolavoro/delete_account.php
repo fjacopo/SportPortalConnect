@@ -26,8 +26,17 @@ if (!isset($_SESSION['username'])) {
 if (isset($_POST['delete_account'])) {
     
     $username = $_SESSION['username'];
-    $sql = "DELETE FROM users WHERE username = '$username'";
-    if ($conn->query($sql) === TRUE) {
+    
+    // Elimina l'account dalle richieste_giocatori se presente
+    $delete_request_stmt = $conn->prepare("DELETE FROM richieste_giocatori WHERE username = ?");
+    $delete_request_stmt->bind_param("s", $username);
+    $delete_request_stmt->execute();
+    
+    // Elimina l'account dalla tabella users
+    $delete_user_stmt = $conn->prepare("DELETE FROM users WHERE username = ?");
+    $delete_user_stmt->bind_param("s", $username);
+    
+    if ($delete_user_stmt->execute()) {
         // Eliminazione avvenuta con successo, effettuo il logout
         session_unset();
         session_destroy();

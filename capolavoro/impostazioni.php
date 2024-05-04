@@ -1,6 +1,19 @@
 <?php
 session_start();
 
+// Controllo se l'utente è autenticato
+if (!isset($_SESSION['username'])) {
+    // Reindirizzo alla pagina di accesso se l'utente non è autenticato
+    header("Location: index.php");
+    exit;
+}
+
+// Controllo se l'utente ha il ruolo di Allenatore
+if ($_SESSION['ruolo'] !== 'Allenatore') {
+    
+    header("Location: home.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -237,6 +250,9 @@ session_start();
         <form action="aggiorna_impostazioni.php" method="POST">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" value="<?php echo $_SESSION['username']; ?>" disabled>
+
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" value="<?php echo $_SESSION['email']; ?>" disabled>
 
             <label for="current_password">Password Corrente</label>
             <input type="password" id="current_password" name="current_password">
