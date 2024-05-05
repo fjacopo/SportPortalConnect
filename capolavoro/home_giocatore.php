@@ -9,7 +9,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 // Controllo se l'utente ha il ruolo di Giocatore o Preparatore
-if ($_SESSION['ruolo'] !== 'Giocatore' && $_SESSION['ruolo'] !== 'Preparatore') {
+if ($_SESSION['ruolo'] !== 'giocatore' && $_SESSION['ruolo'] !== 'preparatore') {
     
     header("Location: home_giocatore.php");
     exit;

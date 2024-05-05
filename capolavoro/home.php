@@ -25,6 +25,8 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
     <title>Sport Portal Connect</title>
     <link rel="icon" href="coach_icon.png" type="image/x-icon">
     <style>
+
+        
         body {
             margin: 0;
             padding: 0;
@@ -398,32 +400,41 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
                   }
                   
                 
-                  // Query per recuperare le richieste
-                  $sql = "SELECT id, nome, cognome, data_nascita, username, email, ruolo FROM richieste_giocatori";
-                  $result = $conn->query($sql);
+                  // Query per recuperare le richieste relative al codice squadra dell'allenatore
+                  $sql = "SELECT id, nome, cognome, data_nascita, username, email, ruolo 
+                          FROM richieste_giocatori 
+                          WHERE cod_squadra = ?";
+                  $stmt = $conn->prepare($sql);
+                  $stmt->bind_param("s", $_SESSION['cod_squadra']);
+                  $stmt->execute();
+                  $result = $stmt->get_result();
               
                   // Chiudi la connessione
                   $conn->close();
               
                   if ($result && $result->num_rows > 0) {
                       while ($request = $result->fetch_assoc()) {
-                          echo "<div class='join-request'>";
-                          echo "<div class='join-request-details'>";
-                          echo "<input type='text' value=' " . $request['nome'] . "' disabled>";
-                          echo "<input type='text' value=' " . $request['cognome'] . "' disabled>";
-                          echo "<input type='text' value=' " . $request['data_nascita'] . "' disabled>";
-                          echo "<input type='text' value=' " . $request['username'] . "' disabled>";
-                          echo "<input type='text' value='" . $request['email'] . "' disabled>"; 
-                          echo "<select name='role[]'>";
-                          echo "<option value='preparatore' " . ($request['ruolo'] == 'preparatore' ? 'selected' : '') . ">Preparatore</option>";
-                          echo "<option value='giocatore' " . ($request['ruolo'] == 'giocatore' ? 'selected' : '') . ">Giocatore</option>";
-                          echo "</select>";
-                          echo "</div>";
-                          echo "<div class='join-request-actions'>";
-                          echo "<button onclick='acceptRequest(" . $request['id'] . ")'>Accetta</button>";
-                          echo "<button onclick='rejectRequest(" . $request['id'] . ")'>Rifiuta</button>";
-                          echo "</div>";
-                          echo "</div>";
+                        echo "<div class='join-request'>";
+                        echo "<div class='join-request-details'>";
+                        echo "<input type='text' value='" . $request['nome'] . "' disabled>";
+                        echo "<input type='text' value='" . $request['cognome'] . "' disabled>";
+                        echo "<input type='text' value='" . $request['data_nascita'] . "' disabled>";
+                        echo "<input type='text' value='" . $request['username'] . "' disabled>";
+                        echo "<input type='text' value='" . $request['email'] . "' disabled>";
+                        
+                        // Aggiungi il campo select per selezionare il ruolo
+                        echo "<select name='role_" . $request['id'] . "'>";
+                        echo "<option value='preparatore'" . ($request['ruolo'] == 'preparatore' ? ' selected' : '') . ">Preparatore</option>";
+                        echo "<option value='giocatore'" . ($request['ruolo'] == 'giocatore' ? ' selected' : '') . ">Giocatore</option>";
+                        echo "</select>";
+                        
+                        echo "</div>";
+                        echo "<div class='join-request-actions'>";
+                        // Passa l'ID della richiesta e il nome del campo select al pulsante "Accetta"
+                        echo "<button onclick='acceptRequest(" . $request['id'] . ", \"role_" . $request['id'] . "\")'>Accetta</button>";
+                        echo "<button onclick='rejectRequest(" . $request['id'] . ")'>Rifiuta</button>";
+                        echo "</div>";
+                        echo "</div>";
                       }
                   } else {
                       echo "<p>Nessuna richiesta di unione trovata.</p>";
@@ -440,19 +451,30 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             menu.style.display = menu.style.display === "block" ? "none" : "block";
         }
 
-        function acceptRequest(id) {
-        // Effettua una richiesta AJAX per accettare la richiesta nel database
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "accetta_richiesta.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // Se l'operazione è completata con successo, ricarica la pagina per aggiornare l'elenco delle richieste
+        function acceptRequest(id, roleSelectId) {
+    // Recupera il valore selezionato dal campo select
+    var roleSelect = document.getElementsByName(roleSelectId)[0];
+    var selectedRole = roleSelect.options[roleSelect.selectedIndex].value;
+
+    // Effettua una richiesta AJAX per accettare la richiesta nel database
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "accetta_richiesta.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = xhr.responseText;
+            // Se l'operazione è completata con successo, ricarica la pagina per aggiornare l'elenco delle richieste
+            if (response === "success") {
                 location.reload();
+            } else {
+                // Se c'è stato un errore, mostra un messaggio di errore
+                alert("Si è verificato un errore durante l'elaborazione della richiesta.");
             }
-        };
-        xhr.send("request_id=" + id);
-    }
+        }
+    };
+    // Invia l'ID della richiesta e il ruolo selezionato come parametri POST
+    xhr.send("request_id=" + id + "&selected_role=" + selectedRole);
+}
 
     // Funzione per gestire il rifiuto di una richiesta
     function rejectRequest(id) {

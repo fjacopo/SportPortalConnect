@@ -7,6 +7,7 @@
     <link rel="icon" href="coach_icon.png" type="image/x-icon">
     <style>
        
+       
 
        body {
             margin: 0;
@@ -48,6 +49,7 @@
             background-color: #F1F1F2;
             color: Black;
             font-family: "Arial Black", Arial, sans-serif;
+            font-size: 12px;
         }
 
         .container button {
