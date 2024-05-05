@@ -12,86 +12,134 @@
 
     <script>
         $(document).ready(function () {
-    var calendar = $('#calendar').fullCalendar({
-        header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,agendaWeek,agendaDay'
-        },
-        buttonText: {
-            today: 'Oggi',
-            month: 'Mese',
-            week: 'Settimana',
-            day: 'Giorno'
-        },
-        editable: true,
-        events: "fetch-event.php",
-        displayEventTime: false,
-        eventRender: function (event, element, view) {
-            if (event.allDay === 'true') {
-                event.allDay = true;
-            } else {
-                event.allDay = false;
-            }
-        },
-        selectable: true,
-        selectHelper: true,
-        select: function (start, end, allDay) {
-            var title = prompt('Evento:');
-            if (title) {
-                var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
-                var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
-                $.ajax({
-                    url: 'add-event.php',
-                    data: 'title=' + title + '&start=' + start + '&end=' + end,
-                    type: "POST",
-                    success: function (data) {
-                        displayMessage("Added Successfully");
+            var calendar = $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                buttonText: {
+                    today: 'Oggi',
+                    month: 'Mese',
+                    week: 'Settimana',
+                    day: 'Giorno'
+                },
+
+                editable: true,
+                events: "fetch-event.php",
+                displayEventTime: false,
+                eventRender: function (event, element, view) {
+                    if (event.allDay === 'true') {
+                        event.allDay = true;
+                    } else {
+                        event.allDay = false;
                     }
-                });
-                calendar.fullCalendar('renderEvent', {
-                    title: title,
-                    start: start,
-                    end: end,
-                    allDay: allDay
-                }, true);
-            }
-            calendar.fullCalendar('unselect');
-        },
-        eventDrop: function (event, delta) {
-            var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
-            var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
-            $.ajax({
-                url: 'edit-event.php',
-                data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
-                type: "POST",
-                success: function (response) {
-                    displayMessage("Updated Successfully");
+                },
+                selectable: true,
+                selectHelper: true,
+                select: function (start, end, allDay) {
+                    // Mostra il form per l'aggiunta dell'evento
+                    $('#eventForm').show(); 
+
+                    // Imposta la data di inizio nel campo nascosto startDate
+                    $('#startDate').val(moment(start).formatDate('YYYY-MM-DD HH'));
+
+                    // Imposta la data di fine nel campo nascosto endDate
+                    $('#endDate').val(moment(end).formatDate('YYYY-MM-DD H'));
+                },
+                eventDrop: function (event, delta) {
+                    var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
+                    var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+                    $.ajax({
+                        url: 'edit-event.php',
+                        data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
+                        type: "POST",
+                        success: function (response) {
+                            displayMessage("Updated Successfully");
+                        }
+                    });
+                },
+                eventClick: function (event) {
+                    var deleteMsg = confirm("Do you really want to delete?");
+                    if (deleteMsg) {
+                        $.ajax({
+                            type: "POST",
+                            url: "delete-event.php",
+                            data: "&id=" + event.id,
+                            success: function (response) {
+                                if (parseInt(response) > 0) {
+                                    $('#calendar').fullCalendar('removeEvents', event.id);
+                                    displayMessage("Deleted Successfully");
+                                }
+                            }
+                        });
+                    }
                 }
             });
-        },
-        eventClick: function (event) {
-            var deleteMsg = confirm("Do you really want to delete?");
-            if (deleteMsg) {
+
+            // Funzione per mostrare un messaggio di successo temporaneo
+            function displayMessage(message) {
+                $(".response").html("<div class='success'>" + message + "</div>");
+                setInterval(function () { $(".success").fadeOut(); }, 1000);
+            }
+
+            // Gestione del form per l'aggiunta di eventi
+            $('#cancelEvent').on('click', function () {
+                $('#eventForm').hide(); // Nasconde il form al clic
+                $('#title').val(''); // Resetta i valori del form
+                $('#startTime').val('');
+                $('#endTime').val('');
+                $('#location').val('');
+            });
+
+            $('#submitEvent').on('click', function () {
+                var title = $('#title').val();
+                var startTime = $('#startTime').val();
+                var endTime = $('#endTime').val();
+                var location = $('#location').val();
+
+                // Verifica che il titolo sia inserito
+                if (title.trim() === '') {
+                    alert('Il titolo è obbligatorio!');
+                    return;
+                }
+
+                // Verifica che le ore di inizio e fine siano inserite
+                if (startTime.trim() === '' || endTime.trim() === '') {
+                    alert('Inserisci l\'ora di inizio e l\'ora di fine!');
+                    return;
+                }
+
+                // Esegui la richiesta AJAX per aggiungere l'evento al database
                 $.ajax({
-                    type: "POST",
-                    url: "delete-event.php",
-                    data: "&id=" + event.id,
+                    url: 'add-event.php',
+                    type: 'POST',
+                    data: {
+                        title: title,
+                        start: startTime,
+                        end: endTime,
+                        location: location
+                    },
                     success: function (response) {
-                        if (parseInt(response) > 0) {
-                            $('#calendar').fullCalendar('removeEvents', event.id);
-                            displayMessage("Deleted Successfully");
-                        }
+                        // Mostra un messaggio di successo
+                        displayMessage(response);
+                        // Aggiorna il calendario
+                        $('#calendar').fullCalendar('refetchEvents');
+                    },
+                    error: function (xhr, status, error) {
+                        // Mostra un messaggio di errore in caso di problemi
+                        displayMessage("Errore nell'aggiunta dell'evento: " + error);
                     }
                 });
-            }
-        }
-    });
-});
-        function displayMessage(message) {
-            $(".response").html("<div class='success'>" + message + "</div>");
-            setInterval(function () { $(".success").fadeOut(); }, 1000);
-        }
+
+                // Chiudi il form e resetta i campi
+                $('#eventForm').hide();
+                $('#title').val('');
+                $('#startTime').val('');
+                $('#endTime').val('');
+                $('#location').val('');
+            });
+        });
     </script>
 
     <style>
@@ -105,7 +153,6 @@
         }
 
         #calendar {
-
             width: 855px;
             height: 30%;
             margin: 0 auto;
@@ -153,7 +200,6 @@
             color: #f1f1f2;
             padding: 20px;
             text-align: center;
-           
         }
 
         h1 {
@@ -195,6 +241,53 @@
         .menu a[href="logout.php"]:hover {
             color: #f95959;
         }
+
+        /* Stile per il form di aggiunta evento */
+        #eventForm {
+            display: none;
+            position: absolute;
+            top: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f1f1f2;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            color: #333;
+        }
+
+        #eventForm label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        #eventForm input[type="text"],
+        #eventForm input[type="time"],
+        #eventForm input[type="submit"],
+        #eventForm button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: "Arial Black", Arial, sans-serif;
+        }
+
+        #eventForm input[type="submit"],
+        #eventForm button {
+            background-color: #1e549f;
+            color: #f1f1f2;
+            cursor: pointer;
+        }
+
+        #eventForm input[type="submit"]:hover{
+            background-color: #5fc9f3;
+        }
+
+        #eventForm button:hover{
+            background-color: #f95959;
+        }
     </style>
 </head>
 
@@ -203,6 +296,25 @@
         <h1>Calendario</h1>
     </header>
     <div id='calendar'></div>
+  
+    <div id="eventForm">
+    <label for="title">Titolo:</label>
+    <input type="text" id="title" name="title">
+
+
+    <label for="startTime">Ora di inizio:</label>
+    <input type="time" id="startTime" name="startTime">
+    
+ 
+    <label for="endTime">Ora di fine:</label>
+    <input type="time" id="endTime" name="endTime">
+
+    <label for="location">Luogo:</label>
+    <input type="text" id="location" name="location">
+    <input type="submit" id="submitEvent" value="Aggiungi Evento">
+    <button type="button" id="cancelEvent">Annulla</button> 
+</div>
+
     <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()" id="menu-icon">
     <div class="menu" id="menu">
         <a href="home.php">Home</a>
@@ -219,7 +331,6 @@
             var menu = document.getElementById("menu");
             menu.style.display = menu.style.display === "block" ? "none" : "block";
         }
-
     </script>
 
     <footer>
