@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 04, 2024 alle 22:24
+-- Creato il: Mag 05, 2024 alle 11:56
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -39,12 +39,18 @@ CREATE TABLE `richieste_giocatori` (
   `stato` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dump dei dati per la tabella `richieste_giocatori`
+-- Struttura della tabella `tbl_events`
 --
 
-INSERT INTO `richieste_giocatori` (`id`, `nome`, `cognome`, `data_nascita`, `email`, `username`, `ruolo`, `cod_squadra`, `stato`) VALUES
-(22137, 'a', 'a', '2019-05-03', 'aa@mail.com', 'a', NULL, 'GYH53FMNXY', 0);
+CREATE TABLE `tbl_events` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `start` datetime NOT NULL,
+  `end` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -68,11 +74,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`nome`, `cognome`, `data_nascita`, `email`, `username`, `password`, `ruolo`, `cod_squadra`) VALUES
-('a', 'a', '2019-05-03', 'aa@mail.com', 'a', '$2y$10$lThKiWCD5fCOk7Os60ioC.IRX7DJ6aQbrNlU46/u6yn5eZpl5MBoq', NULL, NULL),
+('a', 'a', '2019-05-04', 'aa@mail.com', 'a', '$2y$10$4q4IZ.QEeV68kmFQb8lQXOeM6DJtMlY/D6PzyUMlyqJKVeHk.rSY6', 'giocatore', 'GYH53FMNXY'),
 ('Allenatore', 'A', '2019-04-30', 'allenatore@gmail.com', 'allenatore', '$2y$10$pvVxgTrau0EhgqKqeA1l3O1O1vLIfmDHPvhN.O0fbXWojtLapUaiK', 'Allenatore', 'oM4F3yS0VZ'),
-('Domenico', 'Manca', '2005-06-25', 'domymanca.ciao@gmail.com', 'DomeManca', '$2y$10$oUw8v0.Sor9zgjKr5Qz/FuBqXbxkyao77pelYKOgHyc0xp1Z3SaJm', NULL, NULL),
+('Domenico', 'Manca', '2005-06-25', 'domymanca.ciao@gmail.com', 'DomeManca', '$2y$10$9yz9Yc8.FfyYMsu4RnaAS.3moi5X.cGRYpVz0flpbuShaz8ofeYBi', 'preparatore', 'GYH53FMNXY'),
 ('Jacopo', 'Ferrari', '2005-04-20', 'fjacopo10@gmail.com', 'ferrarijacopo', '$2y$10$fXUk3gUdC0ezOZQQDGO.u.hWeYkHvWkUXodzbbolD.gJBGrzlIhiW', 'Allenatore', 'GYH53FMNXY'),
-('prova', 'prova', '2019-05-03', 'prova@gmail.com', 'prova', '$2y$10$ATJqUSRJnTZf7CiRa8B71Oqlr7/m8nxf6HPjjGuIFq7X6tKEzUyc2', 'Preparatore', 'GYH53FMNXY');
+('prova', 'prova', '2019-05-01', 'prova@gmail.com', 'prova', '$2y$10$scx4MV64BkhpRipzQfTdlOGqumpX6.3VAl7aArx3qff6UJXicawRC', 'giocatore', 'oM4F3yS0VZ');
 
 --
 -- Indici per le tabelle scaricate
@@ -84,6 +90,12 @@ INSERT INTO `users` (`nome`, `cognome`, `data_nascita`, `email`, `username`, `pa
 ALTER TABLE `richieste_giocatori`
   ADD PRIMARY KEY (`id`),
   ADD KEY `username` (`username`);
+
+--
+-- Indici per le tabelle `tbl_events`
+--
+ALTER TABLE `tbl_events`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indici per le tabelle `users`
@@ -101,7 +113,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT per la tabella `richieste_giocatori`
 --
 ALTER TABLE `richieste_giocatori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22138;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22146;
+
+--
+-- AUTO_INCREMENT per la tabella `tbl_events`
+--
+ALTER TABLE `tbl_events`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Limiti per le tabelle scaricate
