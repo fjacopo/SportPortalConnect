@@ -90,6 +90,13 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             color: #f95959; 
         }
 
+        .team-code {
+            top: 20px;
+            left: 20px;
+            font-size: 14px;
+            color: #f1f1f2;
+        }
+
         @media (max-width: 300px) {
             .container {
                 padding: 10px;
@@ -111,6 +118,10 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
                 max-height: 150px; 
                 width: 100%; 
             }
+            .team-code {
+            font-size: 8px;
+            color: #f1f1f2;
+          }
         }
 
         @media (min-width: 301px) and (max-width: 480px) {
@@ -134,6 +145,10 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
                 max-height: 200px; 
                 width: 90%; 
             }
+            .team-code {
+            font-size: 9px;
+            color: #f1f1f2;
+        }
         }
 
         @media (min-width: 481px) and (max-width: 600px) {
@@ -158,6 +173,10 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
                 width: 85%; 
             }
         }
+        .team-code {
+            font-size: 10px;
+            color: #f1f1f2;
+        }
     
         @media only screen and (min-width: 601px) and (max-width: 768px) {
             .container {
@@ -180,6 +199,10 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
                 max-height: 250px; 
                 width: 80%; 
             }
+            .team-code {
+            font-size: 11px;
+            color: #f1f1f2;
+          }
         }
 
         @media only screen and (min-width: 769px) and (max-width: 992px) {
@@ -202,6 +225,10 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             .name-design {
                 max-height: 300px; 
                 width: 75%; 
+            }
+            .team-code {
+            font-size: 12px;
+            color: #f1f1f2;
             }
         }
 
@@ -226,6 +253,10 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
                 max-height: 350px; 
                 width: 70%; 
             }
+            .team-code {
+            font-size: 13px;
+            color: #f1f1f2;
+           }
         }
 
         @media only screen and (min-width: 1201px) {
@@ -249,6 +280,10 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
                 max-height: 400px; 
                 width: 60%; 
             }
+            .team-code {
+            font-size: 14px;
+            color: #f1f1f2;
+        }
         }
        
         .join-requests {
@@ -355,19 +390,11 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
         footer p {
             margin: 0;
         }
-        .team-code {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 14px;
-            color: #f1f1f2;
-        }
     </style>
 
 </head>
 <body>
     <div class="container">
-    <div class="team-code">Codice Squadra: <?php echo $_SESSION['cod_squadra']; ?></div>
     
       
        <img src="name_design.png" class="name-design" alt="Name Design">
@@ -382,6 +409,7 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             <a href="logout.php">Logout</a>
         </div>
         
+        <div class="team-code">Codice Squadra: <?php echo $_SESSION['cod_squadra']; ?></div>
         <div class="join-requests">
             <h2>Richieste di unione</h2>
             
