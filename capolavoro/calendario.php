@@ -1,3 +1,21 @@
+<?php
+session_start();
+
+// Controllo se l'utente è autenticato
+if (!isset($_SESSION['username'])) {
+    // Reindirizzo alla pagina di accesso se l'utente non è autenticato
+    header("Location: index.php");
+    exit;
+}
+
+// Controllo se l'utente ha il ruolo di Allenatore
+if ($_SESSION['ruolo'] !== 'Allenatore') {
+    
+    header("Location: calendario.php");
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -24,12 +42,11 @@
                     week: 'Settimana',
                     day: 'Giorno'
                 },
-
                 editable: true,
                 events: "fetch-event.php",
                 displayEventTime: false,
                 eventRender: function (event, element, view) {
-                    if (event.allDay === 'true') {
+                    if (event.allDay === 'true' || event.allDay === true) {
                         event.allDay = true;
                     } else {
                         event.allDay = false;
@@ -39,17 +56,17 @@
                 selectHelper: true,
                 select: function (start, end, allDay) {
                     // Mostra il form per l'aggiunta dell'evento
-                    $('#eventForm').show(); 
+                    $('#eventForm').show();
 
                     // Imposta la data di inizio nel campo nascosto startDate
-                    $('#startDate').val(moment(start).formatDate('YYYY-MM-DD HH'));
+                    $('#startDate').val(moment(start).format('YYYY-MM-DDTHH:mm'));
 
                     // Imposta la data di fine nel campo nascosto endDate
-                    $('#endDate').val(moment(end).formatDate('YYYY-MM-DD H'));
+                    $('#endDate').val(moment(end).format('YYYY-MM-DDTHH:mm'));
                 },
                 eventDrop: function (event, delta) {
-                    var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
-                    var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+                    var start = $.fullCalendar.formatDate(event.start, "YYYY-MM-DDTHH:mm:ss");
+                    var end = $.fullCalendar.formatDate(event.end, "YYYY-MM-DDTHH:mm:ss");
                     $.ajax({
                         url: 'edit-event.php',
                         data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
@@ -60,12 +77,12 @@
                     });
                 },
                 eventClick: function (event) {
-                    var deleteMsg = confirm("Do you really want to delete?");
+                    var deleteMsg = confirm("Vuoi davvero eliminare l'evento?");
                     if (deleteMsg) {
                         $.ajax({
                             type: "POST",
                             url: "delete-event.php",
-                            data: "&id=" + event.id,
+                            data: "id=" + event.id,
                             success: function (response) {
                                 if (parseInt(response) > 0) {
                                     $('#calendar').fullCalendar('removeEvents', event.id);
@@ -75,38 +92,35 @@
                         });
                     }
                 }
+
+                    
+
             });
 
             // Funzione per mostrare un messaggio di successo temporaneo
             function displayMessage(message) {
                 $(".response").html("<div class='success'>" + message + "</div>");
-                setInterval(function () { $(".success").fadeOut(); }, 1000);
+                setTimeout(function () { $(".success").fadeOut(); }, 1000);
             }
 
             // Gestione del form per l'aggiunta di eventi
             $('#cancelEvent').on('click', function () {
                 $('#eventForm').hide(); // Nasconde il form al clic
                 $('#title').val(''); // Resetta i valori del form
-                $('#startTime').val('');
-                $('#endTime').val('');
+                $('#startDate').val('');
+                $('#endDate').val('');
                 $('#location').val('');
             });
 
             $('#submitEvent').on('click', function () {
                 var title = $('#title').val();
-                var startTime = $('#startTime').val();
-                var endTime = $('#endTime').val();
+                var startTime = $('#startDate').val();
+                var endTime = $('#endDate').val();
                 var location = $('#location').val();
 
                 // Verifica che il titolo sia inserito
                 if (title.trim() === '') {
                     alert('Il titolo è obbligatorio!');
-                    return;
-                }
-
-                // Verifica che le ore di inizio e fine siano inserite
-                if (startTime.trim() === '' || endTime.trim() === '') {
-                    alert('Inserisci l\'ora di inizio e l\'ora di fine!');
                     return;
                 }
 
@@ -135,8 +149,8 @@
                 // Chiudi il form e resetta i campi
                 $('#eventForm').hide();
                 $('#title').val('');
-                $('#startTime').val('');
-                $('#endTime').val('');
+                $('#startDate').val('');
+                $('#endDate').val('');
                 $('#location').val('');
             });
         });
@@ -263,7 +277,7 @@
         }
 
         #eventForm input[type="text"],
-        #eventForm input[type="time"],
+        #eventForm input[type="datetime-local"],
         #eventForm input[type="submit"],
         #eventForm button {
             width: 100%;
@@ -298,22 +312,20 @@
     <div id='calendar'></div>
   
     <div id="eventForm">
-    <label for="title">Titolo:</label>
-    <input type="text" id="title" name="title">
-
-
-    <label for="startTime">Ora di inizio:</label>
-    <input type="time" id="startTime" name="startTime">
+        <label for="title">Titolo:</label>
+        <input type="text" id="title" name="title">
     
- 
-    <label for="endTime">Ora di fine:</label>
-    <input type="time" id="endTime" name="endTime">
-
-    <label for="location">Luogo:</label>
-    <input type="text" id="location" name="location">
-    <input type="submit" id="submitEvent" value="Aggiungi Evento">
-    <button type="button" id="cancelEvent">Annulla</button> 
-</div>
+        <label for="startDate">Data e ora di inizio:</label>
+        <input type="datetime-local" id="startDate" name="startDate">
+        
+        <label for="endDate">Data e ora di fine:</label>
+        <input type="datetime-local" id="endDate" name="endDate">
+    
+        <label for="location">Luogo:</label>
+        <input type="text" id="location" name="location">
+        <input type="submit" id="submitEvent" value="Aggiungi Evento">
+        <button type="button" id="cancelEvent">Annulla</button> 
+    </div>
 
     <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()" id="menu-icon">
     <div class="menu" id="menu">

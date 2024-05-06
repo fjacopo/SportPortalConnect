@@ -1,16 +1,26 @@
 <?php
-    require_once "db.php";
+require_once "db_connection.php";
 
-    $json = array();
-    $sqlQuery = "SELECT * FROM tbl_events ORDER BY id";
+// Query per recuperare gli eventi dal database
+$sqlQuery = "SELECT * FROM tbl_events ORDER BY id";
 
-    $result = mysqli_query($conn, $sqlQuery);
-    $eventArray = array();
-    while ($row = mysqli_fetch_assoc($result)) {
-        array_push($eventArray, $row);
-    }
-    mysqli_free_result($result);
+// Esecuzione della query
+$result = mysqli_query($conn, $sqlQuery);
 
-    mysqli_close($conn);
-    echo json_encode($eventArray);
+// Array per memorizzare gli eventi
+$eventArray = array();
+
+// Ciclo attraverso i risultati e aggiunta degli eventi all'array
+while ($row = mysqli_fetch_assoc($result)) {
+    array_push($eventArray, $row);
+}
+
+// Liberazione della memoria del risultato
+mysqli_free_result($result);
+
+// Chiusura della connessione al database
+mysqli_close($conn);
+
+// Restituzione degli eventi sotto forma di JSON
+echo json_encode($eventArray);
 ?>
