@@ -335,8 +335,8 @@ $conn->close();
             <a href="#">Statistiche</a>
             <a href="#">Chat</a>
             <a href="#">Allenamenti</a>
-            <a href="#">Calendario</a>
-            <a href="impostazioni_giocatore.php">Impostazioni</a>
+            <a href="calendario.php">Calendario</a>
+            <a href="impostazioni.php">Impostazioni</a>
             <a href="logout.php">Logout</a>
         </div>
 

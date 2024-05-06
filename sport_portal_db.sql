@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 06, 2024 alle 18:25
+-- Creato il: Mag 06, 2024 alle 22:17
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -53,6 +53,13 @@ CREATE TABLE `tbl_events` (
   `location` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dump dei dati per la tabella `tbl_events`
+--
+
+INSERT INTO `tbl_events` (`id`, `title`, `start`, `end`, `location`) VALUES
+(24, 'allenamento ', '2024-05-07 18:30:00', '2024-05-07 21:24:00', 'campo sportivo');
+
 -- --------------------------------------------------------
 
 --
@@ -76,10 +83,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`nome`, `cognome`, `data_nascita`, `email`, `username`, `password`, `ruolo`, `cod_squadra`) VALUES
 ('a', 'a', '2019-05-04', 'aa@mail.com', 'a', '$2y$10$4q4IZ.QEeV68kmFQb8lQXOeM6DJtMlY/D6PzyUMlyqJKVeHk.rSY6', 'giocatore', 'GYH53FMNXY'),
-('Allenatore', 'A', '2019-04-30', 'allenatore@gmail.com', 'allenatore', '$2y$10$pvVxgTrau0EhgqKqeA1l3O1O1vLIfmDHPvhN.O0fbXWojtLapUaiK', 'Allenatore', 'oM4F3yS0VZ'),
 ('Domenico', 'Manca', '2005-06-25', 'domymanca.ciao@gmail.com', 'DomeManca', '$2y$10$9yz9Yc8.FfyYMsu4RnaAS.3moi5X.cGRYpVz0flpbuShaz8ofeYBi', 'preparatore', 'GYH53FMNXY'),
 ('Jacopo', 'Ferrari', '2005-04-20', 'fjacopo10@gmail.com', 'ferrarijacopo', '$2y$10$fXUk3gUdC0ezOZQQDGO.u.hWeYkHvWkUXodzbbolD.gJBGrzlIhiW', 'Allenatore', 'GYH53FMNXY'),
-('prova', 'prova', '2019-05-01', 'prova@gmail.com', 'prova', '$2y$10$scx4MV64BkhpRipzQfTdlOGqumpX6.3VAl7aArx3qff6UJXicawRC', 'giocatore', 'oM4F3yS0VZ');
+('prova', 'prova', '2019-05-01', 'prova@gmail.com', 'prova', '$2y$10$scx4MV64BkhpRipzQfTdlOGqumpX6.3VAl7aArx3qff6UJXicawRC', NULL, NULL);
 
 --
 -- Indici per le tabelle scaricate
@@ -120,7 +126,7 @@ ALTER TABLE `richieste_giocatori`
 -- AUTO_INCREMENT per la tabella `tbl_events`
 --
 ALTER TABLE `tbl_events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Limiti per le tabelle scaricate

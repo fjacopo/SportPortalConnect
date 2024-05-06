@@ -8,13 +8,10 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-// Controllo se l'utente ha il ruolo di Allenatore
-if ($_SESSION['ruolo'] !== 'Allenatore') {
-    
-    header("Location: home.php");
-    exit;
-}
+
+$userRole = $_SESSION['ruolo']; 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -237,16 +234,28 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
     </header>
 
     <div class="container">
-    <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()" id="menu-icon">
+        <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()" id="menu-icon">
         <div class="menu" id="menu">
-            <a href="home.php">Home</a>
-            <a href="#">Persone</a>
-            <a href="#">Statistiche</a>
-            <a href="#">Chat</a>
-            <a href="#">Allenamenti</a>
-            <a href="calendario.php">Calendario</a>
+            <?php if ($userRole === "Allenatore"): ?>
+                <a href="home.php">Home</a>
+                <a href="#">Persone</a>
+                <a href="#">Statistiche</a>
+                <a href="#">Chat</a>
+                <a href="#">Allenamenti</a>
+                <a href="calendario.php">Calendario</a>
+            <?php elseif ($userRole === "giocatore" || $userRole === "preparatore"): ?>
+                <a href="home_giocatore.php">Home</a>
+                <a href="#">Persone</a>
+                <a href="#">Statistiche</a>
+                <a href="#">Chat</a>
+                <a href="#">Allenamenti</a>
+                <a href="calendario.php">Calendario</a>
+            <?php else: ?>
+                <a href="home_richiesta.php">Home</a>
+            <?php endif; ?>
             <a href="logout.php">Logout</a>
         </div>
+
         <form action="aggiorna_impostazioni.php" method="POST">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" value="<?php echo $_SESSION['username']; ?>" disabled>
