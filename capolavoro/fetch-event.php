@@ -1,8 +1,13 @@
 <?php
 require_once "db_connection.php";
 
+session_start();
+
+$cod_squadra = $_SESSION['cod_squadra'];
+
 // Query per recuperare gli eventi dal database
-$sqlQuery = "SELECT * FROM tbl_events ORDER BY id";
+ $sqlQuery = "SELECT * FROM tbl_events WHERE cod_squadra = '$cod_squadra' ORDER BY id";
+
 
 // Esecuzione della query
 $result = mysqli_query($conn, $sqlQuery);

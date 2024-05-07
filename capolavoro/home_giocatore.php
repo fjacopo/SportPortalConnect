@@ -20,19 +20,7 @@ if ($_SESSION['ruolo'] !== 'giocatore' && $_SESSION['ruolo'] !== 'preparatore') 
 
 
 <?php
-// Connessione al database
-$servername = "localhost";
-$username = "jacopo";
-$password = "Dianaidra24?";
-$dbname = "sport_portal_db";
-
-// Crea una connessione
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Controlla la connessione
-if ($conn->connect_error) {
-    die("Connessione fallita: " . $conn->connect_error);
-}
+require_once "db_connection.php";
 
 // Controllo se il giocatore fa parte di una squadra
 $is_part_of_team = false; // Imposta questa variabile a true se il giocatore fa parte di una squadra
@@ -161,15 +149,19 @@ $conn->close();
             }
 
             .menu {
-                top: 30px;
+                top: 25px;
                 right: 10px;
                 width: 100px;
             }
+
 
             .name-design {
                 max-height: 150px; 
                 width: 100%; 
             }
+        }
+        footer {
+            font-size: 8px;
         }
 
         @media (min-width: 301px) and (max-width: 480px) {
@@ -184,7 +176,7 @@ $conn->close();
             }
 
             .menu {
-                top: 40px;
+                top: 33px;
                 right: 15px;
                 width: 150px;
             }
@@ -193,6 +185,9 @@ $conn->close();
                 max-height: 200px; 
                 width: 90%; 
             }
+            footer {
+            font-size: 8px;
+        }
         }
 
         @media (min-width: 481px) and (max-width: 600px) {
@@ -207,15 +202,19 @@ $conn->close();
             }
 
             .menu {
-                top: 50px;
+                top: 40px;
                 right: 20px;
                 width: 180px;
             }
+
 
             .name-design {
                 max-height: 250px; 
                 width: 85%; 
             }
+            footer {
+            font-size: 10px;
+        }
         }
     
         @media only screen and (min-width: 601px) and (max-width: 768px) {
@@ -230,15 +229,17 @@ $conn->close();
             }
 
             .menu {
-                top: 50px;
+                top: 35px;
                 right: 15px;
                 width: 180px;
             }
-
             .name-design {
                 max-height: 250px; 
                 width: 80%; 
             }
+            footer {
+            font-size: 12px;
+        }
         }
 
         @media only screen and (min-width: 769px) and (max-width: 992px) {
@@ -253,15 +254,19 @@ $conn->close();
             }
 
             .menu {
-                top: 60px;
+                top: 45px;
                 right: 20px;
                 width: 200px;
             }
+
 
             .name-design {
                 max-height: 300px; 
                 width: 75%; 
             }
+            footer {
+            font-size: 14px;
+        }
         }
 
         @media only screen and (min-width: 993px) and (max-width: 1200px) {
@@ -276,15 +281,19 @@ $conn->close();
             }
 
             .menu {
-                top: 70px;
+                top: 55px;
                 right: 25px;
                 width: 220px;
             }
+
 
             .name-design {
                 max-height: 350px; 
                 width: 70%; 
             }
+            footer {
+            font-size: 14px;
+        }
         }
 
         @media only screen and (min-width: 1201px) {
@@ -299,7 +308,7 @@ $conn->close();
             }
 
             .menu {
-                top: 80px;
+                top: 65px;
                 right: 30px;
                 width: 240px;
             }
@@ -308,6 +317,10 @@ $conn->close();
                 max-height: 400px; 
                 width: 60%; 
             }
+
+            footer {
+            font-size: 14px;
+        }
         }
        
         footer {
@@ -331,8 +344,7 @@ $conn->close();
         <img src="name_design.png" class="name-design" alt="Name Design">
         <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()">
         <div class="menu" id="menu">
-            <a href="#">Persone</a>
-            <a href="#">Statistiche</a>
+            <a href="persone.php">Persone</a>
             <a href="#">Chat</a>
             <a href="#">Allenamenti</a>
             <a href="calendario.php">Calendario</a>

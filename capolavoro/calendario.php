@@ -9,6 +9,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['ruolo'])) {
 }
 
 $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
+$cod_squadra = $_SESSION['cod_squadra'];
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +25,7 @@ $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
             padding: 0;
             font-family: "Arial Black", Arial, sans-serif;
             background-color: #121212;
+            
             color: #F1F1F2;
             position: relative;
         }
@@ -38,7 +40,7 @@ $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
             padding: 20px;
             text-align: center;
             position: relative;
-            margin-top: 15px;
+            margin-top: 40px;
             color: #f1f1f2;
         }
 
@@ -55,21 +57,7 @@ $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
             border-radius: 4px;
         }
 
-        footer {
-            background-color: #1e549f;
-            color: #f1f1f2;
-            padding: 20px;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-        }
-
-        footer p {
-            margin: 0;
-            font-weight: normal;
-        }
+       
 
         header {
             background-color: #1e549f;
@@ -90,6 +78,7 @@ $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
             right: 20px;
             cursor: pointer;
             height: auto;
+            
         }
 
         .menu {
@@ -101,6 +90,8 @@ $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
             border-radius: 8px;
             padding: 10px;
             z-index: 1;
+            text-align:center;
+            width: 230px;
         }
 
         .menu a {
@@ -202,6 +193,18 @@ $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
                 width: auto;
                 padding: 10px;
             }
+            .menu-icon {
+                top: 20px;
+                right: 10px;
+                width: 25px;
+            }
+
+            .menu {
+                top: 40px;
+                right: 10px;
+                width: 100px;
+            }
+
         }
 
         @media (min-width: 301px) and (max-width: 480px) {
@@ -221,6 +224,19 @@ $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
             .fc-view.fc-view-agendaWeek {
                 display: none;
             }
+            .menu-icon {
+                top: 25px;
+                right: 15px;
+                width: 30px;
+            }
+
+            .menu {
+                top: 40px;
+                right: 15px;
+                width: 150px;
+
+            }
+            
         }
 
       
@@ -240,6 +256,17 @@ $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
 
             .fc-view.fc-view-agendaWeek {
                 display: none;
+            }
+            .menu-icon {
+                top: 25px;
+                right: 20px;
+                width: 35px;
+            }
+
+            .menu {
+                top: 40px;
+                right: 20px;
+                width: 180px;
             }
         }
 
@@ -261,6 +288,17 @@ $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
             .fc-view.fc-view-agendaWeek {
                 display: none;
             }
+            .menu-icon {
+                top: 25px;
+                right: 15px;
+                width: 35px;
+            }
+
+            .menu {
+                top: 40px;
+                right: 15px;
+                width: 180px;
+            }
         }
 
         
@@ -281,12 +319,24 @@ $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
             .fc-view.fc-view-agendaWeek {
                 display: none;
             }
+            .menu-icon {
+                top: 20px;
+                right: 20px;
+                width: 40px;
+            }
+
+            .menu {
+                top: 40px;
+                right: 20px;
+                width: 200px;
+            }
         }
 
        
         @media only screen and (min-width: 993px) and (max-width: 1200px) {
             #calendar {
                 width: auto;
+                
                 padding: 10px;
             }
 
@@ -301,18 +351,41 @@ $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
             .fc-view.fc-view-agendaWeek {
                 display: none;
             }
-        }
+
+            .menu-icon {
+                top: 20px;
+                right: 25px;
+                width: 50px;
+            }
+
+            .menu {
+                top: 50px;
+                right: 25px;
+                width: 220px;
+            }
 
      
         @media only screen and (min-width: 1201px) {
             #calendar {
-                width: 855px; 
+                width: 850px; 
                 padding: 20px;
             }
 
             .fc-view.fc-view-agendaWeek {
                 display: block;
             }
+            .menu-icon {
+                top: 10px;
+                right: 30px;
+                width: 60px;
+            }
+
+            .menu {
+                top: 45px;
+                right: 30px;
+                width: 240px;
+            }
+        }
         }
 
     </style>
@@ -321,6 +394,8 @@ $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
 <body>
 <header>
     <h1>Calendario</h1>
+
+    
 </header>
 <div id='calendar'>
     <div id="buttonGroup">
@@ -363,19 +438,18 @@ $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
     <button type="button" id="deleteEvent">Elimina</button>
 </div>
 
+<div class = "container"  > 
 <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()" id="menu-icon">
 <div class="menu" id="menu">
     <?php if ($userRole === "Allenatore"): ?>
         <a href="home.php">Home</a>
-        <a href="#">Persone</a>
-        <a href="#">Statistiche</a>
+        <a href="persone.php">Persone</a>
         <a href="#">Chat</a>
         <a href="#">Allenamenti</a>
         <a href="impostazioni.php">Impostazioni</a>
     <?php else: ?>
         <a href="home_giocatore.php">Home</a>
-        <a href="#">Persone</a>
-        <a href="#">Statistiche</a>
+        <a href="persone.php">Persone</a>
         <a href="#">Chat</a>
         <a href="#">Allenamenti</a>
         <a href="impostazioni.php">Impostazioni</a>
@@ -383,9 +457,7 @@ $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
     <a href="logout.php">Logout</a>
 </div>
 
-<footer>
-    <p>&copy; 2024 Sport Portal Connect. Tutti i diritti riservati.</p>
-</footer>
+
 <script>
     function toggleMenu() {
         var menu = document.getElementById("menu");
@@ -414,6 +486,7 @@ $userRole = $_SESSION['ruolo']; // Ottieni il ruolo dell'utente dalla sessione
         toggleButtonsByRole(userRole);
 
         var selectedEventId; // Variabile per tenere traccia dell'evento selezionato
+        
 
         var calendar = $('#calendar').fullCalendar({
             header: {

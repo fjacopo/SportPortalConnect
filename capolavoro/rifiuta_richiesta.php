@@ -1,9 +1,5 @@
 <?php
-// Connessione al database
-$servername = "localhost";
-$username = "jacopo";
-$password = "Dianaidra24?";
-$dbname = "sport_portal_db";
+require_once "db_connection.php";
 
 // Verifica che la richiesta sia stata inviata tramite metodo POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -12,13 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Recupera l'ID della richiesta dalla richiesta POST
         $request_id = $_POST["request_id"];
 
-        // Crea una connessione
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        // Verifica la connessione
-        if ($conn->connect_error) {
-            die("Connessione fallita: " . $conn->connect_error);
-        }
 
         // Cancella la richiesta dal database
         $sql = "DELETE FROM richieste_giocatori WHERE id = ?";

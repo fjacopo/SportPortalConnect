@@ -1,19 +1,7 @@
 <?php
 session_start();
 
-// Connessione al database (da sostituire con le tue credenziali)
-$servername = "localhost";
-$username = "jacopo";
-$password = "Dianaidra24?";
-$dbname = "sport_portal_db";
-
-// Connessione
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verifica della connessione
-if ($conn->connect_error) {
-    die("Connessione fallita: " . $conn->connect_error);
-}
+require_once "db_connection.php";
 
 // Controllo se l'utente è autenticato
 if (!isset($_SESSION['username'])) {
@@ -152,21 +140,7 @@ $conn->close();
             background-color: #174280;
         }
 
-        footer {
-            background-color: #1e549f;
-            color: #f1f1f2;
-            padding: 20px;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-        }
-
-        footer p {
-            margin: 0;
-            font-weight: normal;
-        }
+        
     </style>
 </head>
 <body>
@@ -182,8 +156,6 @@ $conn->close();
         </form>
     </div>
 
-    <footer>
-        <p>&copy; 2024 Sport Portal Connect. Tutti i diritti riservati.</p>
-    </footer>
+    
 </body>
 </html>

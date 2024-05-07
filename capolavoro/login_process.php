@@ -3,18 +3,7 @@
 session_start();
 
 // Connessione al database
-$servername = "localhost";
-$username = "jacopo";
-$password = "Dianaidra24?";
-$dbname = "sport_portal_db";
-
-// Crea una connessione
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Controlla la connessione
-if ($conn->connect_error) {
-    die("Connessione fallita: " . $conn->connect_error);
-}
+require_once "db_connection.php";
 
 // Recupera il nome utente o l'email e la password inviati dal form di login
 $username = $_POST['username'];

@@ -2,14 +2,37 @@
 session_start();
 
 // Controllo se l'utente è autenticato
-if (!isset($_SESSION['username'])) {
-    // Reindirizzo alla pagina di accesso se l'utente non è autenticato
+if (!isset($_SESSION['username']) || !isset($_SESSION['ruolo'])) {
+    // Reindirizza l'utente alla pagina di accesso se non è autenticato
     header("Location: index.php");
-    exit;
+    exit();
 }
 
+// Connessione al database e inclusione del file di connessione
+require_once "db_connection.php";
 
 $userRole = $_SESSION['ruolo']; 
+$cod_squadra = $_SESSION['cod_squadra']; 
+
+// Definizione della query per ottenere gli utenti con lo stesso cod_squadra dell'utente loggato
+$query = "SELECT * FROM users WHERE cod_squadra = ?";
+
+// Preparazione della query
+$stmt = $conn->prepare($query);
+
+// Associazione dei parametri e dei valori
+$stmt->bind_param("i", $_SESSION['cod_squadra']);
+
+// Esegui la query
+$stmt->execute();
+
+// Ottieni il risultato della query
+$result = $stmt->get_result();
+
+// Ottieni i dati degli utenti
+$utenti = $result->fetch_all(MYSQLI_ASSOC);
+
+
 ?>
 
 
@@ -18,7 +41,7 @@ $userRole = $_SESSION['ruolo'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impostazioni - Sport Portal Connect</title>
+    <title>Persone - Sport Portal Connect</title>
     <link rel="icon" href="coach_icon.png" type="image/x-icon">
     <style>
         body {
@@ -43,7 +66,8 @@ $userRole = $_SESSION['ruolo'];
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 40px;
-            
+            text-align: center;
+            margin-top: 5px;
         }
 
         h1, h2 {
@@ -81,6 +105,26 @@ $userRole = $_SESSION['ruolo'];
             color: #f1f1f2;
         }
 
+        .utenti-grid {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            grid-gap: 20px;
+        }
+
+        
+        .utente {
+            background-color: #444; 
+            padding: 20px; 
+            border-radius: 8px; 
+        }
+
+        .utente:nth-child(even) {
+            background-color: #555; 
+        }
+
+       
+
+
         button {
             background-color: #1e549f;
             color: #f1f1f2;
@@ -96,6 +140,10 @@ $userRole = $_SESSION['ruolo'];
         button:hover {
             background-color: #1a447a;
         }
+
+        button:hover[id="removeuser"] {
+            background-color: #f95959; 
+        }   
 
         section {
             margin-bottom: 40px;
@@ -128,6 +176,7 @@ $userRole = $_SESSION['ruolo'];
             text-decoration: underline;
         }
 
+       
 
         .menu-icon {
             position: absolute;
@@ -146,8 +195,6 @@ $userRole = $_SESSION['ruolo'];
             border-radius: 8px;
             padding: 10px;
             z-index: 1;
-            text-align:center;
-            
         }
 
         .menu a {
@@ -155,7 +202,6 @@ $userRole = $_SESSION['ruolo'];
             color: #F1F1F2;
             text-decoration: none;
             margin-bottom: 10px;
-            
         }
 
         .menu a:hover {
@@ -171,11 +217,6 @@ $userRole = $_SESSION['ruolo'];
                 width: 80%;
             }
 
-            input[type="text"],
-            input[type="password"],
-            select {
-                width: calc(100% - 20px);
-            }
             .menu-icon {
                 top: 20px;
                 right: 10px;
@@ -188,6 +229,12 @@ $userRole = $_SESSION['ruolo'];
                 width: 100px;
             }
 
+            input[type="text"],
+            input[type="password"],
+            select {
+                width: calc(100% - 20px);
+            }
+           
         }
 
         @media (min-width: 301px) and (max-width: 480px) {
@@ -205,7 +252,7 @@ $userRole = $_SESSION['ruolo'];
                 right: 15px;
                 width: 150px;
             }
-            
+           
         }
 
         @media (min-width: 481px) and (max-width: 600px) {
@@ -223,6 +270,7 @@ $userRole = $_SESSION['ruolo'];
                 right: 20px;
                 width: 180px;
             }
+          
         }
 
         @media only screen and (min-width: 601px) and (max-width: 768px) {
@@ -240,6 +288,7 @@ $userRole = $_SESSION['ruolo'];
                 right: 15px;
                 width: 180px;
             }
+            
         }
 
         @media only screen and (min-width: 769px) and (max-width: 992px) {
@@ -257,6 +306,7 @@ $userRole = $_SESSION['ruolo'];
                 right: 20px;
                 width: 200px;
             }
+            
         }
 
         @media only screen and (min-width: 993px) and (max-width: 1200px) {
@@ -274,6 +324,7 @@ $userRole = $_SESSION['ruolo'];
                 right: 25px;
                 width: 220px;
             }
+           
         }
 
         @media only screen and (min-width: 1201px) {
@@ -291,6 +342,7 @@ $userRole = $_SESSION['ruolo'];
                 right: 30px;
                 width: 240px;
             }
+            
         }
 
         
@@ -298,7 +350,7 @@ $userRole = $_SESSION['ruolo'];
 </head>
 <body>
     <header>
-        <h1>Impostazioni</h1>
+        <h1>Persone</h1>
     </header>
 
     <div class="container">
@@ -306,13 +358,13 @@ $userRole = $_SESSION['ruolo'];
         <div class="menu" id="menu">
             <?php if ($userRole === "Allenatore"): ?>
                 <a href="home.php">Home</a>
-                <a href="persone.php">Persone</a>
+                <a href="#">Persone</a>
                 <a href="#">Chat</a>
                 <a href="#">Allenamenti</a>
                 <a href="calendario.php">Calendario</a>
             <?php elseif ($userRole === "giocatore" || $userRole === "preparatore"): ?>
                 <a href="home_giocatore.php">Home</a>
-                <a href="persone.php">Persone</a>
+                <a href="#">Persone</a>
                 <a href="#">Chat</a>
                 <a href="#">Allenamenti</a>
                 <a href="calendario.php">Calendario</a>
@@ -322,42 +374,35 @@ $userRole = $_SESSION['ruolo'];
             <a href="logout.php">Logout</a>
         </div>
 
-        <form action="aggiorna_impostazioni.php" method="POST">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" value="<?php echo $_SESSION['username']; ?>" disabled>
-
-            <label for="email">Email</label>
-            <input type="text" id="email" name="email" value="<?php echo $_SESSION['email']; ?>" disabled>
-
-            <label for="current_password">Password Corrente</label>
-            <input type="password" id="current_password" name="current_password">
-
-            <label for="new_password">Nuova Password</label>
-            <input type="password" id="new_password" name="new_password">
-
-            <label for="confirm_password">Conferma Nuova Password</label>
-            <input type="password" id="confirm_password" name="confirm_password">
-            
-    
-            <button type="submit">Salva Modifiche</button>
-        </form>
-
-        <!-- Sezione per la gestione dell'account -->
-        <section>
-            <h2>Gestione Account</h2>
-            <ul>
-                <li><a href="delete_account.php">Elimina Account</a></li>
-            </ul>
-        </section>
+        <h2>Elenco Utenti</h2>
+    <div class="utenti-grid">
+        <?php foreach ($utenti as $utente ): ?>
+            <div class="utente">
+                <p><?php echo $utente['ruolo']; ?></p>
+                <p><?php echo $utente['nome'];?> <?php echo $utente['cognome']; ?></p>
+                <p><?php echo $utente['username']; ?></p>
+                <p><?php echo $utente['email']; ?></p>
+                <?php if ($userRole === "Allenatore"): ?>
+                    <form action="modifica_ruolo.php" method="post">
+                       
+                        </select>
+                        <button type="submit">Modifica Ruolo</button>
+                    </form>
+                     <form action="rimuovi_utente.php" method="post" onsubmit="return confirm('Sei sicuro di voler rimuovere questo utente?');">
+                        <input type="hidden" name="usernameToRemove" value="<?php echo $utente['username']; ?>">
+                        <button type="submit" id="removeuser">Rimuovi</button>
+                     </form>
+                    </form>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
     </div>
     <script>
         function toggleMenu() {
             var menu = document.getElementById("menu");
             menu.style.display = menu.style.display === "block" ? "none" : "block";
         }
+    </script>
 
-        </script>
-
-    
 </body>
 </html>

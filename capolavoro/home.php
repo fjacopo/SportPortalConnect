@@ -32,6 +32,10 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             padding: 0;
             font-family: "Arial Black", Arial, sans-serif;
             background-color: #121212;
+            background-image: url('homeimage.jpg');
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed; 
             color: #F1F1F2;
             position: relative;
         }
@@ -40,7 +44,7 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             width: 90%;
             max-width: 2200px; 
             margin: 20px auto;
-            background-color: #1e549f;
+            background-color: rgba(30, 84, 159, 1);
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             padding: 40px;
@@ -109,7 +113,7 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             }
 
             .menu {
-                top: 30px;
+                top: 25px;
                 right: 10px;
                 width: 100px;
             }
@@ -122,6 +126,9 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             font-size: 8px;
             color: #f1f1f2;
           }
+          footer {
+            font-size: 8px;
+        }
         }
 
         @media (min-width: 301px) and (max-width: 480px) {
@@ -136,7 +143,7 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             }
 
             .menu {
-                top: 40px;
+                top: 33px;
                 right: 15px;
                 width: 150px;
             }
@@ -148,6 +155,9 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             .team-code {
             font-size: 9px;
             color: #f1f1f2;
+        }
+        footer {
+            font-size: 8px;
         }
         }
 
@@ -163,7 +173,7 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             }
 
             .menu {
-                top: 50px;
+                top: 40px;
                 right: 20px;
                 width: 180px;
             }
@@ -176,6 +186,9 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
         .team-code {
             font-size: 10px;
             color: #f1f1f2;
+        }
+        footer {
+            font-size: 10px;
         }
     
         @media only screen and (min-width: 601px) and (max-width: 768px) {
@@ -190,7 +203,7 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             }
 
             .menu {
-                top: 50px;
+                top: 35px;
                 right: 15px;
                 width: 180px;
             }
@@ -203,6 +216,9 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             font-size: 11px;
             color: #f1f1f2;
           }
+          footer {
+            font-size: 12px;
+        }
         }
 
         @media only screen and (min-width: 769px) and (max-width: 992px) {
@@ -217,7 +233,7 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             }
 
             .menu {
-                top: 60px;
+                top: 45px;
                 right: 20px;
                 width: 200px;
             }
@@ -230,6 +246,9 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             font-size: 12px;
             color: #f1f1f2;
             }
+            footer {
+            font-size: 14px;
+        }
         }
 
         @media only screen and (min-width: 993px) and (max-width: 1200px) {
@@ -244,7 +263,7 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             }
 
             .menu {
-                top: 70px;
+                top: 55px;
                 right: 25px;
                 width: 220px;
             }
@@ -257,6 +276,9 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             font-size: 13px;
             color: #f1f1f2;
            }
+           footer {
+            font-size: 14px;
+        }
         }
 
         @media only screen and (min-width: 1201px) {
@@ -271,7 +293,7 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             }
 
             .menu {
-                top: 80px;
+                top: 65px;
                 right: 30px;
                 width: 240px;
             }
@@ -284,6 +306,9 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             font-size: 14px;
             color: #f1f1f2;
         }
+         footer {
+            font-size: 14px;
+          }
         }
        
         .join-requests {
@@ -293,8 +318,8 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             background-color: #081f37;
             border-radius: 8px;
             color: #F1F1F2;
-            overflow-y: auto; /* Abilita lo scrolling verticale */
-            max-height: 166px; 
+            overflow-y: auto; 
+            max-height: 200px; 
         }
 
         .join-requests h2 {
@@ -304,14 +329,14 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
 
         .join-request {
             display: flex;
-            justify-content: space-between; /* Distribuisce gli elementi uniformemente lungo il container */
-            align-items: center; /* Allinea verticalmente al centro */
+            justify-content: space-between; 
+            align-items: center; 
             padding: 10px;
             border-bottom: 1px solid #385170;
         }
 
         .join-request-details {
-            flex: 1; /* Occupa lo spazio disponibile */
+            flex: 1; 
             text-align: left;
             display: flex;
             flex-wrap: wrap;
@@ -324,19 +349,19 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
            
             margin-bottom: 10px;
             font-family: "Arial Black", Arial, sans-serif;
-            font-size: 15px; /* Aumenta la dimensione del font */
+            font-size: 15px; 
             color: #F1F1F2;
-            width: 240px; /* Allunga il campo email */
+            width: 240px; 
         }
 
         .join-request-actions {
             display: flex;
-            align-items: center; /* Allinea verticalmente al centro */
+            align-items: center; 
         }
 
         .join-request-actions button {
             margin-top: 10px;
-            margin-left: 5px; /* Aggiunge spazio tra i pulsanti */
+            margin-left: 5px; 
             padding: 6px 20px;
             border: none;
             border-radius: 5px;
@@ -385,6 +410,7 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             bottom: 0;
             left: 0px;
             width: 100%;
+            
         }
 
         footer p {
@@ -400,8 +426,7 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
        <img src="name_design.png" class="name-design" alt="Name Design">
        <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()" id="menu-icon">
         <div class="menu" id="menu">
-            <a href="#">Persone</a>
-            <a href="#">Statistiche</a>
+            <a href="persone.php">Persone</a>
             <a href="#">Chat</a>
             <a href="#">Allenamenti</a>
             <a href="calendario.php">Calendario</a>
@@ -414,18 +439,8 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             <h2>Richieste di unione</h2>
             
             <?php
-                  $servername = "localhost";
-                  $username = "jacopo";
-                  $password = "Dianaidra24?";
-                  $dbname = "sport_portal_db";
-              
-                  // Crea una connessione
-                  $conn = new mysqli($servername, $username, $password, $dbname);
-              
-                  // Verifica la connessione
-                  if ($conn->connect_error) {
-                      die("Connessione fallita: " . $conn->connect_error);
-                  }
+                  
+                  require_once "db_connection.php";
                   
                 
                   // Query per recuperare le richieste relative al codice squadra dell'allenatore

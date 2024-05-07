@@ -1,19 +1,7 @@
 <?php
 session_start();
 
-// Connessione al database
-$servername = "localhost";
-$username = "jacopo";
-$password = "Dianaidra24?";
-$dbname = "sport_portal_db";
-
-// Connessione al database
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verifica della connessione
-if ($conn->connect_error) {
-    die("Connessione fallita: " . $conn->connect_error);
-}
+require_once "db_connection.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recupera i dati inviati dal modulo HTML
