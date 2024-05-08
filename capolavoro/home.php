@@ -32,10 +32,8 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             padding: 0;
             font-family: "Arial Black", Arial, sans-serif;
             background-color: #121212;
-            background-image: url('homeimage.jpg');
-            background-size: cover; 
-            background-position: center; 
-            background-attachment: fixed; 
+          
+           
             color: #F1F1F2;
             position: relative;
         }
@@ -416,6 +414,91 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
         footer p {
             margin: 0;
         }
+
+        figure {
+        display: grid;
+         border-radius: 1rem;
+        overflow: hidden;
+        cursor: pointer;
+        width: calc(50% - 10px)
+        }
+        .gallery {
+            display: flex;
+            justify-content: space-between;
+        }
+        figure > * {
+        grid-area: 1/1;
+        transition: .4s;
+        
+        }
+        figure figcaption {
+        display: grid;
+        align-items: end;
+        font-family: sans-serif;
+        font-size: 2.3rem;
+        font-weight: bold;
+        color: #0000;
+        padding: .75rem;
+        background: var(--c,#0009);
+        clip-path: inset(0 var(--_i,100%) 0 0);
+        -webkit-mask:
+            linear-gradient(#000 0 0),
+            linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        -webkit-mask-clip: text, padding-box;
+        margin: -1px;
+        }
+        figure:hover figcaption{
+        --_i: 0%;
+        
+        }
+        figure:hover img {
+        transform: scale(1.05);
+        }
+        @supports not (-webkit-mask-clip: text) {
+        figure figcaption {
+        -webkit-mask: none;
+        color: #fff;
+       
+        }
+        }
+        .figure-grid {
+    display: grid;
+    grid-auto-flow: column;
+    place-content: center;
+}
+
+    .figure-grid figure {
+        margin: 0; 
+        width: 250px; 
+        height: 300px; 
+        text-align: center; 
+        overflow: hidden; 
+        border-radius: 8px; 
+        margin-right: 10px; 
+    }
+
+    .figure-grid figure img {
+    max-width: 100%; 
+    max-height: 100%; 
+    object-fit: contain; 
+}
+
+
+        @media only screen and (max-width: 768px) {
+    .gallery {
+        flex-direction: column; 
+    }
+
+  
+
+    figure {
+        width: 100%; 
+        margin-bottom: 20px; 
+    }   
+}
+    
+
     </style>
 
 </head>
@@ -536,8 +619,35 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
      
     </script>
 
+<div class="gallery figure-grid">
+
+    <figure >
+        <img src="image_utenti.jpg" alt="persone">
+        <figcaption>Persone</figcaption>
+    </figure>
+    <figure style="--c:#fff5">
+        <img src="image_allenamenti.jpg" alt="allenamenti">
+        <figcaption>Allenamenti</figcaption>
+    </figure>
+    <figure >
+        <img src="image_calendar.jpg" alt="Calendario">
+        <figcaption>Calendario</figcaption>
+    </figure>
+    <figure style="--c:#fff5">
+        <img src="image_impostazioni.jpg" alt="impostazioni">
+        <figcaption>Impostazioni</figcaption>
+    </figure>
+    <figure >
+        <img src="image_logout.jpg" alt="logout">
+        <figcaption>Logout</figcaption>
+    </figure>
+   
+</div>
+
     <footer>
         <p>&copy; 2024 Sport Portal Connect. Tutti i diritti riservati.</p>
     </footer>
+
+
 </body>
 </html>
