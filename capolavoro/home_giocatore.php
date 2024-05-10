@@ -81,6 +81,7 @@ $conn->close();
             background-color: #121212;
             color: #F1F1F2;
             position: relative;
+            background-image: url('homeimage.jpg');
         }
 
         .container {

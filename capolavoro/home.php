@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 
@@ -32,8 +33,10 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             padding: 0;
             font-family: "Arial Black", Arial, sans-serif;
             background-color: #121212;
-          
-           
+            background-image: url('homeimage.jpg');
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed; 
             color: #F1F1F2;
             position: relative;
         }
@@ -58,9 +61,39 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             object-position: center; 
         }
 
-        
+        .menu-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer; 
+            height: auto;
+        }        
 
-      
+        .menu {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 20px;
+            background-color: rgba(56, 81, 112, 0.8);
+            border-radius: 8px;
+            padding: 10px;
+            z-index: 1;
+        }
+
+        .menu a {
+            display: block;
+            color: #F1F1F2;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+
+        .menu a:hover {
+            color: #5fc9f3;
+        }
+
+        .menu a[href="logout.php"]:hover {
+            color: #f95959; 
+        }
 
         .team-code {
             top: 20px;
@@ -74,7 +107,17 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
                 padding: 10px;
             }
 
-          
+            .menu-icon {
+                top: 10px;
+                right: 10px;
+                width: 25px;
+            }
+
+            .menu {
+                top: 25px;
+                right: 10px;
+                width: 100px;
+            }
 
             .name-design {
                 max-height: 150px; 
@@ -94,7 +137,18 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
                 padding: 20px;
             }
 
-           
+            .menu-icon {
+                top: 15px;
+                right: 15px;
+                width: 30px;
+            }
+
+            .menu {
+                top: 33px;
+                right: 15px;
+                width: 150px;
+            }
+
             .name-design {
                 max-height: 200px; 
                 width: 90%; 
@@ -113,7 +167,17 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
                 padding: 30px;
             }
 
-           
+            .menu-icon {
+                top: 20px;
+                right: 20px;
+                width: 35px;
+            }
+
+            .menu {
+                top: 40px;
+                right: 20px;
+                width: 180px;
+            }
 
             .name-design {
                 max-height: 250px; 
@@ -133,7 +197,17 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
                 padding: 30px;
             }
 
-          
+            .menu-icon {
+                top: 15px;
+                right: 15px;
+                width: 35px;
+            }
+
+            .menu {
+                top: 35px;
+                right: 15px;
+                width: 180px;
+            }
 
             .name-design {
                 max-height: 250px; 
@@ -153,7 +227,17 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
                 padding: 40px;
             }
 
-           
+            .menu-icon {
+                top: 20px;
+                right: 20px;
+                width: 40px;
+            }
+
+            .menu {
+                top: 45px;
+                right: 20px;
+                width: 200px;
+            }
 
             .name-design {
                 max-height: 300px; 
@@ -173,7 +257,17 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
                 padding: 50px;
             }
 
-           
+            .menu-icon {
+                top: 25px;
+                right: 25px;
+                width: 50px;
+            }
+
+            .menu {
+                top: 55px;
+                right: 25px;
+                width: 220px;
+            }
 
             .name-design {
                 max-height: 350px; 
@@ -193,7 +287,17 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
                 padding: 60px;
             }
 
-          
+            .menu-icon {
+                top: 30px;
+                right: 30px;
+                width: 60px;
+            }
+
+            .menu {
+                top: 65px;
+                right: 30px;
+                width: 240px;
+            }
 
             .name-design {
                 max-height: 400px; 
@@ -216,7 +320,7 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
             border-radius: 8px;
             color: #F1F1F2;
             overflow-y: auto; 
-            max-height: 166px; 
+            max-height: 300px; 
         }
 
         .join-requests h2 {
@@ -313,93 +417,23 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
         footer p {
             margin: 0;
         }
-
-        figure {
-        display: grid;
-         border-radius: 1rem;
-        overflow: hidden;
-        cursor: pointer;
-        width: calc((100% - 40px) / 5); 
-        
-        }
-        .gallery {
-            display: flex;
-            justify-content: space-between;
-            gap: 50px;
-        }
-        figure > * {
-        grid-area: 1/1;
-        transition: .4s;
-        
-        }
-        figure figcaption {
-        
-        display: grid;
-        align-items: end;
-        font-family: sans-serif;
-        font-size: 2.3rem;
-        font-weight: bold;
-        color: #0000;
-        padding: .75rem;
-        background: var(--c,#0009);
-        clip-path: inset(0 var(--_i,100%) 0 0);
-        -webkit-mask:
-            linear-gradient(#000 0 0),
-            linear-gradient(#000 0 0);
-        -webkit-mask-composite: xor;
-        -webkit-mask-clip: text, padding-box;
-        margin: -1px;
-        }
-        
-        figure:hover figcaption{
-        --_i: 0%;
-        
-        }
-        figure:hover img {
-        transform: scale(1.05);
-        }
-        @supports not (-webkit-mask-clip: text) {
-        figure figcaption {
-        -webkit-mask: none;
-        color: #fff;
-       
-        }
-        }
-        .figure-grid {
-    display: grid;
-    grid-auto-flow: column;
-    place-content: center;
-}
-
-    .figure-grid figure {
-        margin: 0; 
-        width: 300px; 
-        height: 300px; 
-        text-align: center; 
-        overflow: hidden; 
-        border-radius: 8px; 
-        margin-right: 10px; 
-        position: relative; 
-    }
-
-    .figure-grid figure img {
-    max-width: 100%; 
-    max-height: 100%; 
-    object-fit: contain; 
-}
-
-
-    
- 
-    
-
     </style>
 
 </head>
 <body>
     <div class="container">
-    <img src="name_design.png" class="name-design" alt="Name Design">
+    
       
+       <img src="name_design.png" class="name-design" alt="Name Design">
+       <img src="icon_menu_static.png" class="menu-icon" onclick="toggleMenu()" id="menu-icon">
+        <div class="menu" id="menu">
+            <a href="persone.php">Persone</a>
+            <a href="#">Chat</a>
+            <a href="#">Allenamenti</a>
+            <a href="calendario.php">Calendario</a>
+            <a href="impostazioni.php">Impostazioni</a>
+            <a href="logout.php">Logout</a>
+        </div>
         
         <div class="team-code">Codice Squadra: <?php echo $_SESSION['cod_squadra']; ?></div>
         <div class="join-requests">
@@ -456,7 +490,10 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
 </div>
     
     <script>
-        
+        function toggleMenu() {
+            var menu = document.getElementById("menu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
 
         function acceptRequest(id, roleSelectId) {
     // Recupera il valore selezionato dal campo select
@@ -500,40 +537,8 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
      
     </script>
 
-<div class="gallery figure-grid">
-
-    <a href="persone.php">
-    <figure >
-        <img src="image_utenti.jpg" alt="persone">
-        <figcaption> </figcaption>
-    </figure>
-    <a href="#.php">
-    <figure >
-        <img src="image_allenamenti.jpg" alt="allenamenti">
-        <figcaption> </figcaption>
-    </figure>
-    <a href="calendario.php">
-    <figure >
-        <img src="image_calendar.jpg" alt="Calendario">
-        <figcaption> </figcaption>
-    </figure>
-    <a href="impostazioni.php">
-    <figure >
-        <img src="image_impostazioni.jpg" alt="impostazioni">
-        <figcaption> </figcaption>
-    </figure>
-    <a href="logout.php">
-    <figure >
-        <img src="image_logout.jpeg" alt="logout">
-        <figcaption> </figcaption>
-    </figure>
-   
-</div>
-
     <footer>
         <p>&copy; 2024 Sport Portal Connect. Tutti i diritti riservati.</p>
     </footer>
-
-
 </body>
 </html>
