@@ -129,7 +129,7 @@
             <button type="submit" id="registerButton">REGISTRATI</button>
         </form>
         <p>Sei un allenatore? <a href="register_coach.php">Registrati qui.</a></p>
-        <p>Hai già un account? <a href="index.php">Accedi qui.</a></p>
+        <p>Hai già un account? <a href="login.php">Accedi qui.</a></p>
     </div>
     <script>
        

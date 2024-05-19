@@ -1,7 +1,7 @@
 <?php
 // Configurazione del database
 $servername = "localhost";
-$username = "jacopo";
+$username = "jacopo10";
 $password = "Dianaidra24?";
 $dbname = "sport_portal_db";
 

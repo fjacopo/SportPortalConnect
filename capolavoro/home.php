@@ -1,11 +1,10 @@
-
 <?php
 session_start();
 
 // Controllo se l'utente è autenticato
 if (!isset($_SESSION['username'])) {
     // Reindirizzo alla pagina di accesso se l'utente non è autenticato
-    header("Location: index.php");
+    header("Location: login.php");
     exit;
 }
 
@@ -23,7 +22,7 @@ if ($_SESSION['ruolo'] !== 'Allenatore') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sport Portal Connect</title>
+    <title>Home - Sport Portal Connect</title>
     <link rel="icon" href="coach_icon.png" type="image/x-icon">
     <style>
 

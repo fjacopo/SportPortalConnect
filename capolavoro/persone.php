@@ -4,7 +4,7 @@ session_start();
 // Controllo se l'utente è autenticato
 if (!isset($_SESSION['username']) || !isset($_SESSION['ruolo'])) {
     // Reindirizza l'utente alla pagina di accesso se non è autenticato
-    header("Location: index.php");
+    header("Location: login.php");
     exit();
 }
 
@@ -358,16 +358,17 @@ $utenti = $result->fetch_all(MYSQLI_ASSOC);
         <div class="menu" id="menu">
             <?php if ($userRole === "Allenatore"): ?>
                 <a href="home.php">Home</a>
-                <a href="#">Persone</a>
                 <a href="#">Chat</a>
                 <a href="#">Allenamenti</a>
                 <a href="calendario.php">Calendario</a>
+                <a href="impostazioni.php">Impostazioni</a>
             <?php elseif ($userRole === "giocatore" || $userRole === "preparatore"): ?>
                 <a href="home_giocatore.php">Home</a>
                 <a href="#">Persone</a>
                 <a href="#">Chat</a>
                 <a href="#">Allenamenti</a>
                 <a href="calendario.php">Calendario</a>
+                <a href="impostazioni.php">Impostazioni</a>
             <?php else: ?>
                 <a href="home_richiesta.php">Home</a>
             <?php endif; ?>
@@ -376,43 +377,27 @@ $utenti = $result->fetch_all(MYSQLI_ASSOC);
 
         <h2>Elenco Utenti</h2>
     <div class="utenti-grid">
-    <?php foreach ($utenti as $utente ): ?>
-    <?php if ($_SESSION['username'] === $utente['username']) continue; ?> <!-- Salta l'utente loggato -->
-
-    <div class="utente">
-        <p><?php echo $utente['ruolo']; ?></p>
-        <p><?php echo $utente['nome'];?> <?php echo $utente['cognome']; ?></p>
-        <p><?php echo $utente['username']; ?></p>
-        <p><?php echo $utente['email']; ?></p>
-        
-        <?php if ($userRole === "Allenatore"): ?>
-            <form action="modifica_ruolo.php" method="post">
-                <input type="hidden" name="username" value="<?php echo $utente['username']; ?>">
-                <label for="nuovoRuolo">Nuovo Ruolo:</label>
-                <select name="nuovoRuolo" id="nuovoRuolo">
-                    <?php if ($utente['ruolo'] === "giocatore"): ?>
-                        <option value="Allenatore">Allenatore</option>
-                        <option value="preparatore">Preparatore</option>
-                    <?php elseif ($utente['ruolo'] === "preparatore"): ?>
-                        <option value="Allenatore">Allenatore</option>
-                        <option value="giocatore">Giocatore</option>
-                    <?php endif; ?>
-                    <?php if ($utente['ruolo'] === "Allenatore"): ?>
-                        <option value="giocatore">Giocatore</option>
-                        <option value="preparatore">Preparatore</option>
-                    <?php endif; ?>
-                </select>
-                <button type="submit">Modifica Ruolo</button>
-            </form>
-            <form action="rimuovi_utente.php" method="post" onsubmit="return confirm('Sei sicuro di voler rimuovere questo utente?');">
-                <input type="hidden" name="usernameToRemove" value="<?php echo $utente['username']; ?>">
-                <button type="submit" id="removeuser">Rimuovi</button>
-            </form>
-        <?php endif; ?>
+        <?php foreach ($utenti as $utente ): ?>
+            <div class="utente">
+                <p><?php echo $utente['ruolo']; ?></p>
+                <p><?php echo $utente['nome'];?> <?php echo $utente['cognome']; ?></p>
+                <p><?php echo $utente['username']; ?></p>
+                <p><?php echo $utente['email']; ?></p>
+                <?php if ($userRole === "Allenatore"): ?>
+                    <form action="modifica_ruolo.php" method="post">
+                       
+                        </select>
+                        <button type="submit">Modifica Ruolo</button>
+                    </form>
+                     <form action="rimuovi_utente.php" method="post" onsubmit="return confirm('Sei sicuro di voler rimuovere questo utente?');">
+                        <input type="hidden" name="usernameToRemove" value="<?php echo $utente['username']; ?>">
+                        <button type="submit" id="removeuser">Rimuovi</button>
+                     </form>
+                    </form>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
     </div>
-<?php endforeach; ?>
-    </div>
-
     <script>
         function toggleMenu() {
             var menu = document.getElementById("menu");

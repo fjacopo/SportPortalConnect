@@ -4,7 +4,7 @@ session_start();
 // Verifica se l'utente è autenticato e se ha un ruolo definito nella sessione
 if (!isset($_SESSION['username']) || !isset($_SESSION['ruolo'])) {
     // Reindirizza l'utente alla pagina di accesso se non è autenticato
-    header("Location: index.php");
+    header("Location: login.php");
     exit();
 }
 

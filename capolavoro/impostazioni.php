@@ -4,7 +4,7 @@ session_start();
 // Controllo se l'utente è autenticato
 if (!isset($_SESSION['username'])) {
     // Reindirizzo alla pagina di accesso se l'utente non è autenticato
-    header("Location: index.php");
+    header("Location: login.php");
     exit;
 }
 

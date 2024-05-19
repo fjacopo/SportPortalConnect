@@ -4,7 +4,7 @@ session_start();
 
 // Controlla se l'utente è loggato, altrimenti reindirizza alla pagina di login
 if (!isset($_SESSION['username'])) {
-    header("Location: index.php");
+    header("Location: login.php");
     exit();
 }
 
@@ -106,7 +106,6 @@ $conn->close();
             background-color: #121212;
             color: #F1F1F2;
             position: relative;
-            background-image: url('homeimage.jpg');
         }
 
         .container {

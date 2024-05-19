@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Sport Portal Connect</title>
-    
     <link rel="icon" href="coach_icon.png" type="image/x-icon">
     <style>
        
@@ -123,10 +122,9 @@
 </div>
 </div>
 
-
-<script>!function(d,l,e,s,c){e=d.createElement("script");e.src="//ad.altervista.org/js.ad/size=300X250/?ref="+encodeURIComponent(l.hostname+l.pathname)+"&r="+Date.now();s=d.scripts;c=d.currentScript||s[s.length-1];c.parentNode.insertBefore(e,c)}(document,location)</script>
         
-    
+        
+        </a>
     </div>
   
 </body>
